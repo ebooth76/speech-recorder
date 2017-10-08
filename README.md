@@ -20,18 +20,18 @@ ASR, and the database.
 
 ## Team Members:
 
-Last Name       | First Name      | GitHub User Name     | Scrum Role
---------------- | --------------- | -------------------- | ---------------
-Hanic            | Edin             | TBD                  | Developer
-Turulja           | Eldin             | TBD                  | Developer
-Westmoreland             | Lucas             | TBD                  | Scrum Master
-Eddy             | Marshall             | TBD                  | Developer
-Ward             | Alec             | TBD                  | Developer
-Henggeler             | Peter             | TBD                  | Developer
-Manning             | Tyler             | sylsr                  | Product Owner
-Black             | Stacy             | TBD                  | Developer
-Wamsley             | Aaron             | TBD                  | Developer
-Krahn             | Jacob             | TBD                  | Developer
+Last Name       | First Name      | GitHub User Name     | Scrum Role      | Developer Role
+--------------- | --------------- | -------------------- | --------------- | -----------------
+Hanic            | Edin             | TBD                  | Developer                  | Backend (Server-side)
+Turulja           | Eldin             | TBD                  | Developer                  | Frontend (Client-side)
+Westmoreland             | Lucas             | TBD                  | Scrum Master                  | Frontend (Client-side)
+Eddy             | Marshall             | TBD                  | Developer                  | Voice Recognition
+Ward             | Alec             | TBD                  | Developer                  | Frontend (Client-side)
+Henggeler             | Peter             | TBD                  | Developer                  | Backend (Server-side)
+Manning             | Tyler             | sylsr                  | Product Owner                  | Voice Recognition
+Black             | Stacy             | TBD                  | Developer                  | Frontend (Client-side)
+Wamsley             | Aaron             | TBD                  | Developer                  | Backend (Server-side)
+Krahn             | Jacob             | TBD                  | Developer                  | Frontend (Client-side)
 
 ## Team Velocity:
 
