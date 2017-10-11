@@ -37,7 +37,7 @@ Westmoreland             | Lucas             | TBD                  | Scrum Mast
 
 Sprint | Estimated Velocity | Actual Velocity
 ------ | ------------------ | ---------------
-sprint 1  | TBD                | TBD
-sprint 2| TBD                | TBD
-sprint 3   | TBD                | TBD
-sprint 4  | TBD                | TBD
+1  | TBD                | TBD
+2| TBD                | TBD
+3   | TBD                | TBD
+4  | TBD                | TBD
