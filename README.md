@@ -22,16 +22,16 @@ ASR, and the database.
 
 Last Name       | First Name      | GitHub User Name     | Scrum Role      | Developer Role
 --------------- | --------------- | -------------------- | --------------- | -----------------
-Hanic            | Edin             | TBD                  | Developer                  | Backend (Server-side)
-Turulja           | Eldin             | TBD                  | Developer                  | Frontend (Client-side)
-Westmoreland             | Lucas             | TBD                  | Scrum Master                  | Frontend (Client-side)
-Eddy             | Marshall             | TBD                  | Developer                  | Voice Recognition
-Ward             | Alec             | TBD                  | Developer                  | Frontend (Client-side)
-Henggeler             | Peter             | TBD                  | Developer                  | Backend (Server-side)
-Manning             | Tyler             | sylsr                  | Product Owner                  | Voice Recognition
 Black             | Stacy             | TBD                  | Developer                  | Frontend (Client-side)
-Wamsley             | Aaron             | aaronwamsley                  | Developer                  | Backend (Server-side)
+Eddy             | Marshall             | TBD                  | Developer                  | Voice Recognition
+Hanic            | Edin             | TBD                  | Developer                  | Backend (Server-side)
+Henggeler             | Peter             | TBD                  | Developer                  | Backend (Server-side)
 Krahn             | Jacob             | TBD                  | Developer                  | Frontend (Client-side)
+Manning             | Tyler             | sylsr                  | Product Owner                  | Voice Recognition
+Turulja           | Eldin             | TBD                  | Developer                  | Frontend (Client-side)
+Wamsley             | Aaron             | aaronwamsley                  | Developer                  | Backend (Server-side)
+Ward             | Alec             | TBD                  | Developer                  | Frontend (Client-side)
+Westmoreland             | Lucas             | TBD                  | Scrum Master                  | Frontend (Client-side)
 
 ## Team Velocity:
 
