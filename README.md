@@ -30,7 +30,7 @@ Ward             | Alec             | TBD                  | Developer          
 Henggeler             | Peter             | TBD                  | Developer                  | Backend (Server-side)
 Manning             | Tyler             | sylsr                  | Product Owner                  | Voice Recognition
 Black             | Stacy             | TBD                  | Developer                  | Frontend (Client-side)
-Wamsley             | Aaron             | TBD                  | Developer                  | Backend (Server-side)
+Wamsley             | Aaron             | aaronwamsley                  | Developer                  | Backend (Server-side)
 Krahn             | Jacob             | TBD                  | Developer                  | Frontend (Client-side)
 
 ## Team Velocity:
