@@ -1,5 +1,0 @@
-Done means that every task in the User Story has been completed with all of our Unit Tests passing in a fashion that allows
-the product owner to review the User Stories to ensure that it meets their expectations.
-*DoDCriteria1: Each User Story is completed
-*DoDCriteria2: Each User Story passes our unit tests
-*DoDCriteria3: The product owner can adequately analyze our progress.
