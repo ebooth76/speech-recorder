@@ -25,7 +25,7 @@ Last Name       | First Name      | GitHub User Name     | Scrum Role      | Dev
 Black             | Stacy             | stacyblack0                  | Developer                  | Frontend (Client-side)
 Eddy             | Marshall             | TBD                  | Developer                  | Voice Recognition
 Hanic            | Edin             | TBD                  | Developer                  | Backend (Server-side)
-Henggeler             | Peter             | TBD                  | Developer                  | Backend (Server-side)
+Henggeler             | Peter             | phenggeler                  | Developer                  | Backend (Server-side)
 Krahn             | Jacob             | TBD                  | Developer                  | Frontend (Client-side)
 Manning             | Tyler             | sylsr                  | Product Owner                  | Voice Recognition
 Turulja           | Eldin             | TBD                  | Developer                  | Frontend (Client-side)
