@@ -31,7 +31,7 @@ Manning             | Tyler             | sylsr                  | Product Owner
 Turulja           | Eldin             | TBD                  | Developer                  | Frontend (Client-side)
 Wamsley             | Aaron             | aaronwamsley                  | Developer                  | Backend (Server-side)
 Ward             | Alec             | TBD                  | Developer                  | Frontend (Client-side)
-Westmoreland             | Lucas             | TBD                  | Scrum Master                  | Frontend (Client-side)
+Westmoreland             | Lucas             | lucaswestmoreland                  | Scrum Master                  | Frontend (Client-side)
 
 ## Team Velocity:
 
