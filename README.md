@@ -20,18 +20,18 @@ ASR, and the database.
 
 ## Team Members:
 
-Last Name       | First Name      | GitHub User Name     | Scrum Role      | Developer Role
---------------- | --------------- | -------------------- | --------------- | -----------------
-Black             | Stacy             | stacyblack0                  | Developer                  | Frontend (Client-side)
-Eddy             | Marshall             | MarshallEddy                  | Developer                  | Voice Recognition
-Hanic            | Edin             | TBD                  | Developer                  | Backend (Server-side)
-Henggeler             | Peter             | phenggeler                  | Developer                  | Backend (Server-side)
-Krahn             | Jacob             | TBD                  | Developer                  | Frontend (Client-side)
-Manning             | Tyler             | sylsr                  | Product Owner                  | Voice Recognition
-Turulja           | Eldin             | TBD                  | Developer                  | Frontend (Client-side)
-Wamsley             | Aaron             | aaronwamsley                  | Developer                  | Backend (Server-side)
-Ward             | Alec             | TBD                  | Developer                  | Frontend (Client-side)
-Westmoreland             | Lucas             | lucaswestmoreland                  | Scrum Master                  | Frontend (Client-side)
+Last Name       | First Name      | GitHub User Name     | Scrum Role
+--------------- | --------------- | -------------------- | --------------- 
+Black             | Stacy             | stacyblack0                  | Developer
+Eddy             | Marshall             | MarshallEddy                  | Developer
+Hanic            | Edin             | TBD                  | Developer
+Henggeler             | Peter             | phenggeler                  | Developer
+Krahn             | Jacob             | TBD                  | Developer
+Manning             | Tyler             | sylsr                  | Product Owner
+Turulja           | Eldin             | TBD                  | Developer
+Wamsley             | Aaron             | aaronwamsley                  | Developer
+Ward             | Alec             | TBD                  | Developer
+Westmoreland             | Lucas             | lucaswestmoreland                  | Scrum Master
 
 ## Team Velocity:
 
