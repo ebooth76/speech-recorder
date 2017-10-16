@@ -24,7 +24,7 @@ Last Name       | First Name      | GitHub User Name     | Scrum Role
 --------------- | --------------- | -------------------- | --------------- 
 Black             | Stacy             | stacyblack0                  | Developer
 Eddy             | Marshall             | MarshallEddy                  | Developer
-Hanic            | Edin             | TBD                  | Developer
+Hanic            | Edin             | edinhanic                  | Developer
 Henggeler             | Peter             | phenggeler                  | Developer
 Krahn             | Jacob             | TBD                  | Developer
 Manning             | Tyler             | sylsr                  | Product Owner
