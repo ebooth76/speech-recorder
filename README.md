@@ -32,7 +32,7 @@ Krahn             | Jacob             | TBD                  | Developer
 Manning             | Tyler             | sylsr                  | Product Owner
 Turulja           | Eldin             | EldinTuru                  | Developer
 Wamsley             | Aaron             | aaronwamsley                  | Developer
-Ward             | Alec             | TBD                  | Developer
+Ward             | Alec             | AlecWard                  | Developer
 Westmoreland             | Lucas             | lucaswestmoreland                  | Scrum Master
 
 ## Team Velocity:
