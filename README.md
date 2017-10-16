@@ -30,7 +30,7 @@ Hanic            | Edin             | edinhanic                  | Developer
 Henggeler             | Peter             | phenggeler                  | Developer
 Krahn             | Jacob             | TBD                  | Developer
 Manning             | Tyler             | sylsr                  | Product Owner
-Turulja           | Eldin             | TBD                  | Developer
+Turulja           | Eldin             | EldinTuru                  | Developer
 Wamsley             | Aaron             | aaronwamsley                  | Developer
 Ward             | Alec             | TBD                  | Developer
 Westmoreland             | Lucas             | lucaswestmoreland                  | Scrum Master
