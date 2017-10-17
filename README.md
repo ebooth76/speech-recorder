@@ -28,7 +28,7 @@ Black             | Stacy             | stacyblack0                  | Developer
 Eddy             | Marshall             | MarshallEddy                  | Developer
 Hanic            | Edin             | edinhanic                  | Developer
 Henggeler             | Peter             | phenggeler                  | Developer
-Krahn             | Jacob             | TBD                  | Developer
+Krahn             | Jacob             |    jakelar               | Developer
 Manning             | Tyler             | sylsr                  | Product Owner
 Turulja           | Eldin             | EldinTuru                  | Developer
 Wamsley             | Aaron             | aaronwamsley                  | Developer
