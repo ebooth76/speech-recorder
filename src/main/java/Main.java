@@ -59,7 +59,7 @@ public class Main {
   }
 
   @RequestMapping("/sign-up")
-  String index() {
+  String signup() {
     return "signup";
   }
 
