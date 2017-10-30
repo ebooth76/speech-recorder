@@ -74,6 +74,30 @@ public class Main {
     }
   }
 
+  @RequestMapping("/users")
+  String users(Map<String, Object> model) {
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users"
+      +"'username' varchar(255) DEFAULT NULL,"
+      +"('id' int(11) NOT NULL AUTO_INCREMENT,"
+      +"'password' varchar(255) DEFAULT NULL,"
+      +"'user_type' varchar(255) DEFAULT NULL,"
+      +"PRIMARY KEY ('id'))");
+      ResultSet rs = stmt.executeQuery("SELECT * FROM users");
+      ArrayList<String> output = new ArrayList<String>();
+      while (rs.next()) {
+        output.add("Read from DB: " + rs.next());
+      }
+
+      model.put("records", output);
+      return "db";
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
+  }
+
   @Bean
   public DataSource dataSource() throws SQLException {
     if (dbUrl == null || dbUrl.isEmpty()) {
