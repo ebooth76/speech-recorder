@@ -43,6 +43,7 @@ Sprint | Estimated Velocity | Actual Velocity
 2  | TBD                | TBD
 3   | TBD                | TBD
 4  | TBD                | TBD
+
 # java-getting-started
 
 [![CircleCI](https://circleci.com/gh/heroku/java-getting-started.svg?style=svg)](https://circleci.com/gh/heroku/java-getting-started)
