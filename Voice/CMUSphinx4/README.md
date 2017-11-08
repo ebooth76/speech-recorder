@@ -8,3 +8,13 @@
 ```
   $ ./installSphinx4.sh
 ```
+
+#### If you are using a Windows Machine, you will need to have Cygwin installed, or something similar to be able to run the bash script
+
+### Repo:
+  https://github.com/cmusphinx/sphinx4
+### Website:
+  https://cmusphinx.github.io/
+  https://cmusphinx.github.io/wiki/tutorialsphinx4/
+### Downlaods:
+  https://www.cygwin.com/
