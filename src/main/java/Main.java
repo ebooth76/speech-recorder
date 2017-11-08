@@ -24,7 +24,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -53,13 +57,27 @@ public class Main {
     return "index";
   }
 
-  @RequestMapping("/login")
-  String login() {
+  @GetMapping("/login")
+  String loginForm() {
+    return "login";
+  }
+  
+  @PostMapping("/login")
+  String loginSubmit(@ModelAttribute User user) {
+    // Use 'user' variable (which should contain a username and password) to verify a user in the database.
+    // Hash the password, and sanitize inputs
     return "login";
   }
 
-  @RequestMapping("/sign-up")
-  String signup() {
+  @GetMapping("/sign-up")
+  String signupForm() {
+    return "signup";
+  }
+  
+  @PostMapping("/sign-up")
+  String signupSubmit(@ModelAttribute User user) {
+    // Use 'user' variable (username/password/type) to create a new row in the user database table.
+    // Hash the password, and sanitize inputs
     return "signup";
   }
 
