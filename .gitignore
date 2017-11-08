@@ -2,3 +2,4 @@ target
 .env
 .idea/
 *.iml
+Voice/CMUSphinx4/sphinx4
