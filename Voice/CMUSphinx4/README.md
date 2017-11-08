@@ -1,5 +1,9 @@
 ## CMUSphinx4 Information:
 
+### The script will install CMUSphinx4 Source! 
+#### We may not need the source in the future, as we have the sphinx4 jar file in the repo. 
+#### I will leave the script that donwloads the source files for now in case we need it in the future.
+
 #### This Directory should only contain the installSphinx.sh bash script. You will use this script to install sphinx4 into the repo. 
 #### When pushing your new code the 'sphinx4' directory will be in the .gitifnore file
 
