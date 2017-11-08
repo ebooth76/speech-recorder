@@ -1,4 +1,4 @@
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <title>Log in to your account</title>
@@ -7,14 +7,14 @@
 <body>
 	<h1>Log in</h1>
 
-	<form action="./index.html" method=POST>
+	<form action="./index.html" th:action="@{/login}" th:object="${user}" method=POST>
 		<p>
 			<label for="username">Enter your username:</label>
-			<input type="text" id="username" name="username" required="true">
+			<input type="text" id="username" name="username" th:field="*{username}" required="true">
 		</p>
 		<p>
 			<label for="password">Enter your password:</label>
-			<input type="password" id="password" name="password" required="true">
+			<input type="password" id="password" name="password" th:field="*{password}" required="true">
 		</p>
 		<input type="submit" value="Log in">
 	</form>
