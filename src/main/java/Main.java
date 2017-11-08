@@ -62,7 +62,7 @@ public class Main {
     return "login";
   }
 
-  // login endpoint
+  // login endpoint and committing change
   @PostMapping("/login")
   String loginSubmit(@ModelAttribute User user) {
     // Use 'user' variable (which should contain a username and password) to verify a user in the database.
@@ -70,7 +70,7 @@ public class Main {
     return "login";
   }
 
-  // signup endpoint
+  // signup endpoint and committing change
   @GetMapping("/sign-up")
   String signupForm() {
     return "signup";
