@@ -1,5 +1,6 @@
 package app;
 
+// User model to map to DB user table
 public class User {
 
     private long id;
