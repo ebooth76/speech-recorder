@@ -38,6 +38,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Map;
 
+package src.main.java.app;
+import app.User;
+
 @Controller
 @SpringBootApplication
 public class Main {
