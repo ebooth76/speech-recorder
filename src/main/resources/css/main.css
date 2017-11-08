@@ -24,7 +24,35 @@
     border: 2px solid white; }
     .jumbotron .lang-logo img {
       max-width: 100%; }
-
+  #top {
+  overflow: hidden;
+  position: relative;}
+  #title {
+  float:left;
+  font-family: serif;
+  font-size: 75px;
+  margin: 20px;
+  font-weight: normal;
+  text-shadow: 4px 4px 4px #aaa;}
+    #title a {
+    text-decoration: none;
+    font-size:0;}
+  .login {
+  position:absolute;
+  right:0;}
+    ul.login {
+    list-style:none;
+    margin:0;}
+    ul.login li {
+    display: inline;
+    font-size: 18px;}
+    ul.login li a {
+    color: #000;
+    text-decoration: none;}
+    ul.login li+li:before {
+    padding: 2px;
+    color:black;
+    content: "|";}
 
 
 
