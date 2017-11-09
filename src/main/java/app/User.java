@@ -1,6 +1,6 @@
 package app;
 
-// User model to map to DB user table and committing change
+// User model to map to DB user table and committing change to ticket #42
 public class User {
 
     private long id;
