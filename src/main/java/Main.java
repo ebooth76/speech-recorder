@@ -84,6 +84,17 @@ public class Main {
     // Hash the password, and sanitize inputs
     return "signup";
   }
+   // password endpoint and committing change
+  @GetMapping("/password")
+  String passwordForm() {
+    return "password";
+  }
+
+  @PostMapping("/password")
+  String passwordSubmit(@ModelAttribute User user) {
+    
+    return "password";
+  }
 
   @RequestMapping("/db")
   String db(Map<String, Object> model) {
