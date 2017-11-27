@@ -21,6 +21,7 @@ public class ReceiveAudio {
 	 * @param p - prompt the user is attempting to match.
 	 */
 	public ReceiveAudio(AudioInputStream in, String p, String u) {
+		//TODO get audio recording details from front end.
 		/*******Audio device settings***********/
 		float rate = 44100.0f;
 		int sampleSize = 16;
