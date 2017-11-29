@@ -51,9 +51,9 @@ public class ReceiveAudio{
 	private FileReturn saveAudio() {
 		//TODO create path to save to
 		String path = "where to save";
-		//TODO generate file name
-		String name = user + System.currentTimeMillis();
-		//TODO save file name to path
+		//generate file name
+		String name = user + System.currentTimeMillis() + ".wav";
+		//save file name to path
 		String saveFile = path + "\\" + name;
 		try {
 			FileOutputStream fileOut = new FileOutputStream(saveFile);
@@ -62,6 +62,8 @@ public class ReceiveAudio{
 			return new FileReturn(1, null);
 		}
 		//TODO insert entry in DB
+		
+		//return success and the created file.
 		return new FileReturn(0, saveFile);
 	}
 	
@@ -72,9 +74,7 @@ public class ReceiveAudio{
 	private VoiceMetaData sendToSphinx(File f) {
 		Voice voice = new Voice();
 		
-		//TODO convert audio input to Sphinx required format (if necessary)
-		
-		//TODO transmit to Sphinx
+		//send data to sphinx and return metadata.
 		return voice.analyze(f, prompt);		
 	}
 	
