@@ -1,4 +1,4 @@
-package src.main.java.app;
+/*package src.main.java.app;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,11 +11,11 @@ import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 
 import Voice.VoiceAPI.src.api.*;
-
+*/
 /**
  * @author Aaron Wamsley
  *
- */
+ *//*
 public class AudioManager{
 	
 	//globals
@@ -33,14 +33,14 @@ public class AudioManager{
 		}
 		return "failure";
 	}
-	
+*/	
 	/**
 	 * Save audio to disk and insert database reference to it.
 	 * returns: 	0=success
 	 * 				1=failed to open output stream
 	 * 				2=failed to write to file
 	 */
-	private int saveAudio(String audio) {
+/*	private int saveAudio(String audio) {
 		Decoder decoder = Base64.getDecoder();
 		buffer = decoder.decode(audio.split(",")[1]);
 		//TODO create path to save to
@@ -65,15 +65,15 @@ public class AudioManager{
 		
 		return 0;
 	}
-	
+*/	
 	/**
 	 * Sphinx requires audio file be in the following format:
 	 * RIFF, Little Endian, WAVE audio, Microsoft PCM, 16 bit, mono 1600Hz
 	 */
-	private VoiceMetaData sendToSphinx(File f) {
+/*	private VoiceMetaData sendToSphinx(File f) {
 		Voice voice = new Voice();
 		
 		//send data to sphinx and return metadata.
 		return voice.analyze(f, prompt);		
 	}	
-}
+}*/

@@ -19,7 +19,7 @@ package com.example;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-import api.VoiceMetaData;
+//import api.VoiceMetaData;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,7 +42,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import app.User;
-import src.main.java.app.AudioManager;
+//import src.main.java.app.AudioManager;
 
 @Controller
 @SpringBootApplication
@@ -51,7 +51,7 @@ public class Main {
   @Value("${spring.datasource.url}")
   private String dbUrl;
 
-  @Autowired
+  //@Autowired
   private DataSource dataSource;
 
   public static void main(String[] args) throws Exception {
@@ -63,7 +63,7 @@ public class Main {
     return "index";
   }
 
-  @GetMapping("/login")
+/*  @GetMapping("/login")
   String loginForm() {
     return "login";
   }
@@ -74,7 +74,7 @@ public class Main {
     // Use 'user' variable (which should contain a username and password) to verify a user in the database.
     // Hash the password, and sanitize inputs
     return "login";
-  }
+  }*/
 
   // signup endpoint and committing change
   @GetMapping("/sign-up")
@@ -143,7 +143,7 @@ public class Main {
       return "error";
     }
   }
-
+/*
   @PostMapping("/audio")
   String audio(String audio) {
 	  AudioManager am = new AudioManager();
@@ -159,6 +159,6 @@ public class Main {
       config.setJdbcUrl(dbUrl);
       return new HikariDataSource(config);
     }
-  }
+  }*/
 
 }
