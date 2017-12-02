@@ -13,34 +13,40 @@ import Voice.VoiceAPI.src.api.*;
  * @author Aaron Wamsley
  *
  */
-public class ReceiveAudio{
+public class AudioManager{
 	
 	//globals
 	private byte[] buffer;
 	private int port;
+	private static File audioFile;
 	private static AudioInputStream audioIn;
-	private String prompt, user;
-	
+	private static String prompt, user;
 	
 	/**
 	 * @param in - audio input stream
 	 * @param p - prompt the user is attempting to match.
 	 */
-	public ReceiveAudio(AudioInputStream in, String p, String u) {
-		//TODO get audio recording details from front end.
-		/*******Audio device settings***********/
-		float rate = 44100.0f;
-		int sampleSize = 16;
-		int channels = 2;
-		boolean isSigned = true;
-		boolean bigEndian = true;
-		/***************************************/
-		
-		audioIn = in;
-		prompt = p;
-		user = u;
-		AudioFormat af = new AudioFormat(rate, sampleSize, channels, isSigned, bigEndian);
-		
+//	public ReceiveAudio(AudioInputStream in, String p, String u) {
+//		//TODO get audio recording details from front end.
+//		/*******Audio device settings***********/
+//		float rate = 44100.0f;
+//		int sampleSize = 16;
+//		int channels = 2;
+//		boolean isSigned = true;
+//		boolean bigEndian = true;
+//		/***************************************/
+//		
+//		audioIn = in;
+//		prompt = p;
+//		user = u;
+//		AudioFormat af = new AudioFormat(rate, sampleSize, channels, isSigned, bigEndian);
+//		
+//	}
+	
+	public VoiceMetaData analyze(String audio) {
+		if(saveAudio(audio) == 0)
+			return sendToSphinx(audioFile);
+		return null;
 	}
 	
 	/**
@@ -48,7 +54,8 @@ public class ReceiveAudio{
 	 * returns: 	0=success
 	 * 				1=failed to open output stream
 	 */
-	private FileReturn saveAudio() {
+	private int saveAudio(String audio) {
+		
 		//TODO create path to save to
 		String path = "where to save";
 		//generate file name
@@ -57,14 +64,14 @@ public class ReceiveAudio{
 		String saveFile = path + "\\" + name;
 		try {
 			FileOutputStream fileOut = new FileOutputStream(saveFile);
+			audioFile = new File(saveFile);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-			return new FileReturn(1, null);
+			return 1;
 		}
 		//TODO insert entry in DB
 		
-		//return success and the created file.
-		return new FileReturn(0, saveFile);
+		return 0;
 	}
 	
 	/**
@@ -76,25 +83,5 @@ public class ReceiveAudio{
 		
 		//send data to sphinx and return metadata.
 		return voice.analyze(f, prompt);		
-	}
-	
-	/**
-	 * helper class to handle return from file creation.
-	 *
-	 */
-	private class FileReturn {
-		private int returnCode;
-		private String fileName;
-		
-		public FileReturn(int i, String s) {
-			returnCode = i;
-			fileName = s;
-		}
-		public int getReturnCode() {
-			return returnCode;
-		}
-		public String getFileName() {
-			return fileName;
-		}
-	}
+	}	
 }

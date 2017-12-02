@@ -18,6 +18,9 @@ package com.example;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+
+import api.VoiceMetaData;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -39,6 +42,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import app.User;
+import src.main.java.app.AudioManager;
 
 @Controller
 @SpringBootApplication
@@ -140,6 +144,12 @@ public class Main {
     }
   }
 
+  @PostMapping("/audio")
+  VoiceMetaData audio(String audio) {
+	  AudioManager am = new AudioManager();
+	  return am.analyze(audio);
+  }
+  
   @Bean
   public DataSource dataSource() throws SQLException {
     if (dbUrl == null || dbUrl.isEmpty()) {
