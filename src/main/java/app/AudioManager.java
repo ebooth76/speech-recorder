@@ -3,6 +3,9 @@ package src.main.java.app;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Base64;
+import java.util.Base64.Decoder;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -53,9 +56,11 @@ public class AudioManager{
 	 * Save audio to disk and insert database reference to it.
 	 * returns: 	0=success
 	 * 				1=failed to open output stream
+	 * 				2=failed to write to file
 	 */
 	private int saveAudio(String audio) {
-		
+		Decoder decoder = Base64.getDecoder();
+		buffer = decoder.decode(audio.split(",")[1]);
 		//TODO create path to save to
 		String path = "where to save";
 		//generate file name
@@ -64,10 +69,15 @@ public class AudioManager{
 		String saveFile = path + "\\" + name;
 		try {
 			FileOutputStream fileOut = new FileOutputStream(saveFile);
+			fileOut.write(buffer);
+			fileOut.close();
 			audioFile = new File(saveFile);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			return 1;
+		}catch (IOException e) {
+			e.printStackTrace();
+			return 2;
 		}
 		//TODO insert entry in DB
 		
