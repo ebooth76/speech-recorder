@@ -145,7 +145,7 @@ public class Main {
   }
 
   @PostMapping("/audio")
-  VoiceMetaData audio(String audio) {
+  String audio(String audio) {
 	  AudioManager am = new AudioManager();
 	  return am.analyze(audio);
   }

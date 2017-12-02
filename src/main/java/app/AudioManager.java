@@ -25,31 +25,13 @@ public class AudioManager{
 	private static AudioInputStream audioIn;
 	private static String prompt, user;
 	
-	/**
-	 * @param in - audio input stream
-	 * @param p - prompt the user is attempting to match.
-	 */
-//	public ReceiveAudio(AudioInputStream in, String p, String u) {
-//		//TODO get audio recording details from front end.
-//		/*******Audio device settings***********/
-//		float rate = 44100.0f;
-//		int sampleSize = 16;
-//		int channels = 2;
-//		boolean isSigned = true;
-//		boolean bigEndian = true;
-//		/***************************************/
-//		
-//		audioIn = in;
-//		prompt = p;
-//		user = u;
-//		AudioFormat af = new AudioFormat(rate, sampleSize, channels, isSigned, bigEndian);
-//		
-//	}
-	
-	public VoiceMetaData analyze(String audio) {
-		if(saveAudio(audio) == 0)
-			return sendToSphinx(audioFile);
-		return null;
+
+	public String analyze(String audio) {
+		if(saveAudio(audio) == 0){
+			if(!(sendToSphinx(audioFile)==null))
+					return "success";
+		}
+		return "failure";
 	}
 	
 	/**
