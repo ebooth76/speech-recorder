@@ -157,7 +157,7 @@ public class Main {
       ResultSet rs = stmt.executeQuery("SELECT * FROM phrases");
       ArrayList<String> output = new ArrayList<String>();
       while (rs.next()) {
-        output.add("Read from DB: " + rs.next());
+        output.add("Read from DB: " + rs.getPhrase());
       }
 
       model.put("records", output);
