@@ -106,6 +106,26 @@ public class Main {
     return "record";
   }
 
+
+// @GetMapping("/record")
+// String record(Map<String, Object> model) {
+//   try (Connection connection = getConnection()) {
+//     Statement stmt = connection.createStatement();
+//     ResultSet rs = stmt.executeQuery("SELECT * FROM phrases ORDER BY RANDOM() LIMIT 1");
+//     ArrayList<String> output = new ArrayList<String>();
+//     while (rs.next()) {
+//       output.add("Read from DB: " + rs.getString("phrase"));
+//     }
+//
+//     model.put("records", output);
+//     return "game";
+//   } catch (Exception e) {
+//     model.put("message", e.getMessage());
+//     return "error";
+//   }
+// }
+
+
   @RequestMapping("/db")
     String db(Map<String, Object> model) {
       try (Connection connection = getConnection()) {
@@ -154,10 +174,10 @@ public class Main {
   String game(Map<String, Object> model) {
     try (Connection connection = getConnection()) {
       Statement stmt = connection.createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT * FROM phrases");
+      ResultSet rs = stmt.executeQuery("SELECT * FROM phrases ORDER BY RANDOM() LIMIT 1");
       ArrayList<String> output = new ArrayList<String>();
       while (rs.next()) {
-        output.add("Read from DB: " + rs.getString("phrase"));
+        output.add(rs.getString("phrase"));
       }
 
       model.put("records", output);
