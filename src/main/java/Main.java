@@ -105,14 +105,9 @@ public class Main {
     return "record";
   }
 
-  private static Connection getConnection() throws URISyntaxException, SQLException {
-      String dbUrl = System.getenv("JDBC_DATABASE_URL");
-      return DriverManager.getConnection(dbUrl);
-  }
-
   @RequestMapping("/db")
     String db(Map<String, Object> model) {
-      try (Connection connection = getConnection()) {
+      try (Connection connection = dataSource.getConnection()) {
         Statement stmt = connection.createStatement();
         stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)");
         stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
@@ -185,15 +180,15 @@ public class Main {
 	  return am.analyze(audio);
   }
 */
-@Bean
-public DataSource dataSource() throws SQLException {
-  if (dbUrl == null || dbUrl.isEmpty()) {
-    return new HikariDataSource();
-  } else {
-    HikariConfig config = new HikariConfig();
-    config.setJdbcUrl(dbUrl);
-    return new HikariDataSource(config);
+  @Bean
+  public DataSource dataSource() throws SQLException {
+    if (dbUrl == null || dbUrl.isEmpty()) {
+      return new HikariDataSource();
+    } else {
+      HikariConfig config = new HikariConfig();
+      config.setJdbcUrl(dbUrl);
+      return new HikariDataSource(config);
+    }
   }
-}
 
 }
