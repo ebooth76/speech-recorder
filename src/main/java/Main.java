@@ -48,7 +48,7 @@ import app.User;
 @SpringBootApplication
 public class Main {
 
-  @Value("${spring.datasource.url}")
+  @Value("${SPRING_DATASOURCE_URL}")
   private String dbUrl;
 
   //@Autowired
