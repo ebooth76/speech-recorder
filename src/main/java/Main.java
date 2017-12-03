@@ -149,6 +149,12 @@ public class Main {
     }
   }
 
+  // temporary
+  @PostMapping("/audio")
+  String audio(String audio) {
+    return "success";
+  }
+
 /*
   @PostMapping("/audio")
   String audio(String audio) {

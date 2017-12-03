@@ -147,6 +147,8 @@ if (navigator.mediaDevices.getUserMedia) {
       soundClips.appendChild(clipContainer);
 
       audio.controls = true;
+
+      // get blob, convert to base64 wav
       var blob = new Blob(chunks, { 'type' : 'audio/wav' });
       var reader = new FileReader();
       var base64data;
@@ -155,6 +157,21 @@ if (navigator.mediaDevices.getUserMedia) {
           base64data = reader.result;
           //console.log(base64data);
       }
+
+      function reqListener () {
+         console.log(this.responseText);
+      }
+
+      // send audio to server
+      var xhr = new XMLHttpRequest();
+      xhr.addEventListener("load", reqListener);
+      xhr.open("POST", "/audio", true);
+      xhr.onload = function (oEvent) {
+          // do stuff?
+      };
+      xhr.send(base64data);
+
+
       chunks = [];
       var audioURL = window.URL.createObjectURL(blob);
       audio.src = audioURL;
