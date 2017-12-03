@@ -101,29 +101,30 @@ public class Main {
     return "password";
   }
 
+/*
   @GetMapping("/record")
   String record() {
     return "record";
   }
+*/
 
+@GetMapping("/record")
+String record(Map<String, Object> model) {
+  try (Connection connection = getConnection()) {
+    Statement stmt = connection.createStatement();
+    ResultSet rs = stmt.executeQuery("SELECT * FROM phrases ORDER BY RANDOM() LIMIT 1");
+    ArrayList<String> output = new ArrayList<String>();
+    while (rs.next()) {
+      output.add(rs.getString("phrase"));
+    }
 
-// @GetMapping("/record")
-// String record(Map<String, Object> model) {
-//   try (Connection connection = getConnection()) {
-//     Statement stmt = connection.createStatement();
-//     ResultSet rs = stmt.executeQuery("SELECT * FROM phrases ORDER BY RANDOM() LIMIT 1");
-//     ArrayList<String> output = new ArrayList<String>();
-//     while (rs.next()) {
-//       output.add("Read from DB: " + rs.getString("phrase"));
-//     }
-//
-//     model.put("records", output);
-//     return "game";
-//   } catch (Exception e) {
-//     model.put("message", e.getMessage());
-//     return "error";
-//   }
-// }
+    model.put("records", output);
+    return "game";
+  } catch (Exception e) {
+    model.put("message", e.getMessage());
+    return "error";
+  }
+}
 
 
   @RequestMapping("/db")

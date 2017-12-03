@@ -13,7 +13,10 @@
     <header>
         <h1>Record audio</h1>
     </header>
-
+    <h2> Please say the following into the microphone:</h2>
+    <ul th:each="record : ${records}">
+      <li th:text="${record}"/>
+    </ul>
     <section class="main-controls">
         <!--<canvas class="visualizer" height="60px"></canvas>-->
         <div id="buttons">
