@@ -152,7 +152,7 @@ public class Main {
   // temporary
   @PostMapping("/audio")
   String audio(String audio) {
-    return audio;
+    return "success";
   }
 
 /*
