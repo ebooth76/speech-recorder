@@ -152,7 +152,7 @@ public class Main {
   @RequestMapping("/game")
   String game(Map<String, Object> model) {
     try (Connection connection = dataSource.getConnection()) {
-
+      Statement stmt = connection.createStatement();
       ResultSet rs = stmt.executeQuery("SELECT * FROM phrases");
       ArrayList<String> output = new ArrayList<String>();
       while (rs.next()) {
@@ -160,7 +160,7 @@ public class Main {
       }
 
       model.put("records", output);
-      return "game";
+      return "db";
     } catch (Exception e) {
       model.put("message", e.getMessage());
       return "error";
