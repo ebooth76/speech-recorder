@@ -105,9 +105,14 @@ public class Main {
     return "record";
   }
 
+  private static Connection getConnection() throws URISyntaxException, SQLException {
+      String dbUrl = System.getenv("JDBC_DATABASE_URL");
+      return DriverManager.getConnection(dbUrl);
+  }
+
   @RequestMapping("/db")
     String db(Map<String, Object> model) {
-      try (Connection connection = dataSource.getConnection()) {
+      try (Connection connection = getConnection()) {
         Statement stmt = connection.createStatement();
         stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)");
         stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
