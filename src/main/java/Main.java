@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.sql.DriverManager;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -107,7 +108,7 @@ public class Main {
 
   @RequestMapping("/db")
     String db(Map<String, Object> model) {
-      try (Connection connection = dataSource.getConnection()) {
+      try (Connection connection = getConnection()) {
         Statement stmt = connection.createStatement();
         stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)");
         stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
@@ -180,6 +181,11 @@ public class Main {
 	  return am.analyze(audio);
   }
 */
+private static Connection getConnection() throws URISyntaxException, SQLException {
+    String dbUrl = System.getenv("JDBC_DATABASE_URL");
+    return DriverManager.getConnection(dbUrl);
+}
+
   @Bean
   public DataSource dataSource() throws SQLException {
     if (dbUrl == null || dbUrl.isEmpty()) {
