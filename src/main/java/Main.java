@@ -96,7 +96,7 @@ public class Main {
 
   @PostMapping("/password")
   String passwordSubmit(@ModelAttribute User user) {
-    
+
     return "password";
   }
 
@@ -149,6 +149,24 @@ public class Main {
     }
   }
 
+  @RequestMapping("/game")
+  String game(Map<String, Object> model) {
+    try (Connection connection = dataSource.getConnection()) {
+
+      ResultSet rs = stmt.executeQuery("SELECT * FROM phrases");
+      ArrayList<String> output = new ArrayList<String>();
+      while (rs.next()) {
+        output.add("Read from DB: " + rs.next());
+      }
+
+      model.put("records", output);
+      return "game";
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
+  }
+
   // temporary
   @PostMapping("/audio")
   String audio(String audio) {
@@ -161,7 +179,7 @@ public class Main {
 	  AudioManager am = new AudioManager();
 	  return am.analyze(audio);
   }
-  
+
   @Bean
   public DataSource dataSource() throws SQLException {
     if (dbUrl == null || dbUrl.isEmpty()) {
