@@ -3,6 +3,10 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>MicronoApp - Record</title>
+    <!--<link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">-->
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
     <!-- this code is largely taken from the MDN's example here: https://github.com/mdn/web-dictaphone-->
 </head>
 
@@ -123,6 +127,54 @@ if (navigator.mediaDevices.getUserMedia) {
     }
 
     mediaRecorder.onstop = function(e) {
+
+
+
+
+        // set up websocket
+
+        var stompClient = null;
+
+        //function setConnected(connected) {
+        //    $("#connect").prop("disabled", connected);
+        //    $("#disconnect").prop("disabled", !connected);
+        //    if (connected) {
+        //        $("#conversation").show();
+        //    }
+        //    else {
+        //        $("#conversation").hide();
+        //    }
+        //    $("#greetings").html("");
+        //}
+
+        function connect() {
+            var socket = new SockJS('/audio-websocket');
+            stompClient = Stomp.over(socket);
+            stompClient.connect({}, function (frame) {
+                //setConnected(true);
+                console.log('Connected: ' + frame);
+                //stompClient.subscribe('/topic/greetings', function (greeting) {
+                //    showGreeting(JSON.parse(greeting.body).content);
+                //});
+            });
+        }
+
+        function disconnect() {
+            if (stompClient !== null) {
+                stompClient.disconnect();
+            }
+            //setConnected(false);
+            console.log("Disconnected");
+        }
+
+        //function sendAudio() {
+        //    stompClient.send("/app/hello", {}, JSON.stringify({'name': $("#name").val()}));
+        //}
+
+
+
+
+
       console.log("data available after MediaRecorder.stop() called.");
 
       //console.log(clipName);
@@ -158,14 +210,14 @@ if (navigator.mediaDevices.getUserMedia) {
       reader.readAsDataURL(blob);
       reader.onloadend = function() {
           base64data = reader.result;
-          //console.log(base64data);
+          console.log(base64data);
       }
 
       function reqListener () {
          console.log(this.responseText);
       }
 
-      // send audio to server
+      // send audio to server with post
       var xhr = new XMLHttpRequest();
       xhr.addEventListener("load", reqListener);
       xhr.open("POST", "/audio", true);
@@ -174,6 +226,10 @@ if (navigator.mediaDevices.getUserMedia) {
       };
       xhr.send(base64data);
 
+      // send with websocket
+      connect();
+      stompClient.send("/app/audio", {}, base64data);
+      disconnect();
 
       chunks = [];
       var audioURL = window.URL.createObjectURL(blob);
@@ -184,16 +240,6 @@ if (navigator.mediaDevices.getUserMedia) {
         evtTgt = e.target;
         evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode);
       }*/
-
-      clipLabel.onclick = function() {
-        var existingName = clipLabel.textContent;
-        var newClipName = prompt('Enter a new name for your sound clip?');
-        if(newClipName === null) {
-          clipLabel.textContent = existingName;
-        } else {
-          clipLabel.textContent = newClipName;
-        }
-      }
     }
 
     mediaRecorder.ondataavailable = function(e) {
@@ -269,6 +315,13 @@ if (navigator.mediaDevices.getUserMedia) {
 }
 
 window.onresize();*/
+
+
+
+</script>
+
+<script>
+
 
 
 
