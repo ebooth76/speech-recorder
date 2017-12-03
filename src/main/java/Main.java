@@ -110,7 +110,9 @@ public class Main {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       ResultSet rs = stmt.executeQuery("SELECT tick FROM ticks;");
-      System.out.println(rs);
+      System.err.println("Hello, logs!");
+      System.err.println(rs);
+
       ArrayList<String> output = new ArrayList<String>();
       while (rs.next()) {
         output.add("Read from da DB: " + rs.getTimestamp("tick"));
