@@ -100,6 +100,11 @@ public class Main {
     return "password";
   }
 
+  @GetMapping("/record")
+  String record() {
+    return "record";
+  }
+
   @RequestMapping("/db")
   String db(Map<String, Object> model) {
     try (Connection connection = dataSource.getConnection()) {
@@ -143,6 +148,7 @@ public class Main {
       return "error";
     }
   }
+
 /*
   @PostMapping("/audio")
   String audio(String audio) {
