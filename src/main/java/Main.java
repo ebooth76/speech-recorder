@@ -177,7 +177,7 @@ public class Main {
 	  AudioManager am = new AudioManager();
 	  return am.analyze(audio);
   }
-
+*/
   @Bean
   public DataSource dataSource() throws SQLException {
     if (dbUrl == null || dbUrl.isEmpty()) {
@@ -187,6 +187,6 @@ public class Main {
       config.setJdbcUrl(dbUrl);
       return new HikariDataSource(config);
     }
-  }*/
+  }
 
 }
