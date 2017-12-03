@@ -129,7 +129,7 @@ public class Main {
 
   @RequestMapping("/users")
   String users(Map<String, Object> model) {
-    try (Connection connection = dataSource.getConnection()) {
+    try (Connection connection = getConnection()) {
       Statement stmt = connection.createStatement();
       stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users"
       +" (user_id SERIAL NOT NULL PRIMARY KEY,"
@@ -152,7 +152,7 @@ public class Main {
 
   @RequestMapping("/game")
   String game(Map<String, Object> model) {
-    try (Connection connection = dataSource.getConnection()) {
+    try (Connection connection = getConnection()) {
       Statement stmt = connection.createStatement();
       ResultSet rs = stmt.executeQuery("SELECT * FROM phrases");
       ArrayList<String> output = new ArrayList<String>();
