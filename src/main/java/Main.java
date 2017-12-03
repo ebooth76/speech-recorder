@@ -181,7 +181,7 @@ public class Main {
 	  return am.analyze(audio);
   }
 */
-private static Connection getConnection() throws URISyntaxException, SQLException {
+private static Connection getConnection() throws SQLException {
     String dbUrl = System.getenv("JDBC_DATABASE_URL");
     return DriverManager.getConnection(dbUrl);
 }
