@@ -119,7 +119,7 @@ String record(Map<String, Object> model) {
     }
 
     model.put("records", output);
-    return "game";
+    return "record";
   } catch (Exception e) {
     model.put("message", e.getMessage());
     return "error";
