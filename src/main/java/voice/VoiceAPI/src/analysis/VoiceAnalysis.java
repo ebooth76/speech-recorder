@@ -1,4 +1,4 @@
-package Voice.VoiceAPI.src.analysis;
+package analysis;
 
 import java.io.File;
 import java.io.FileInputStream;
