@@ -8,7 +8,8 @@ import java.util.Base64;
 import java.util.Base64.Decoder;
 
 import javax.sound.sampled.AudioInputStream;
-import src.Voice.VoiceAPI.src.api.*;
+
+import api.Voice;
 
 /**
  * @author Aaron Wamsley
