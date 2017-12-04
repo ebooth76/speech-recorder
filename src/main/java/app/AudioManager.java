@@ -1,6 +1,9 @@
 package app;
 
 import javax.sound.sampled.AudioInputStream;
+
+import api.VoiceMetaData;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -76,10 +79,10 @@ public class AudioManager{
 	 * Sphinx requires audio file be in the following format:
 	 * RIFF, Little Endian, WAVE audio, Microsoft PCM, 16 bit, mono 1600Hz
 	 */
-//	private VoiceMetaData sendToSphinx(File f) {
-//		Voice voice = new Voice();
-//
-//		//send data to sphinx and return metadata.
-//		return voice.analyze(f, prompt);
-//	}
+	private VoiceMetaData sendToSphinx(File f) {
+		Voice voice = new Voice();
+
+		//send data to sphinx and return metadata.
+		return voice.analyze(f, prompt);
+	}
 }
