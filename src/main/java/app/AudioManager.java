@@ -10,6 +10,7 @@ import java.util.Base64;
 import java.util.Base64.Decoder;
 
 import voice.*;
+import src.test2;
 import src.voice.VoiceAPI.src.api.*;
 import api.*;
 
@@ -35,6 +36,7 @@ public class AudioManager{
 	 * @return string containing success or failure.  once fully implemented, will return metadata.
 	 */
 	public String analyze(String audio, String phrase, String user) {
+		test2 testing = new test2();
 		AudioManager.prompt = phrase;
 		AudioManager.user = user;
 		if(saveAudio(audio) == 0){
