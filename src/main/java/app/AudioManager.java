@@ -2,21 +2,13 @@ package app;
 
 import javax.sound.sampled.AudioInputStream;
 
-<<<<<<< HEAD
 
-=======
->>>>>>> refs/remotes/origin/Sphinx_Testing
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.Base64.Decoder;
-
-import voice.*;
-import src.test2;
-import src.voice.VoiceAPI.src.api.*;
-import api.*;
 
 
 /**
