@@ -1,4 +1,4 @@
-package Voice.VoiceAPI.src.api;
+package api;
 
 public class VoiceMetaData {
 
