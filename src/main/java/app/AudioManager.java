@@ -2,7 +2,7 @@ package app;
 
 import javax.sound.sampled.AudioInputStream;
 
-import src.api.VoiceMetaData;
+import VoiceAPI.src.api.VoiceMetaData;
 
 import java.io.File;
 import java.io.FileNotFoundException;
