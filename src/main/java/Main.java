@@ -16,33 +16,28 @@
 
 package com.example;
 
+import app.User;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-
-//import api.VoiceMetaData;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.sql.DriverManager;
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.io.FileOutputStream;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Map;
 
-import app.User;
+//import api.VoiceMetaData;
 //import src.main.java.app.AudioManager;
 
 @Controller
@@ -193,6 +188,17 @@ String record(Map<String, Object> model) {
   @PostMapping("/audio")
   String audio(String audio) {
     return "success";
+  }
+
+  @MessageMapping ("/audio")
+  public void stream(String base64Audio) throws Exception {
+    System.out.println("incoming message ...");
+    // write to file
+//    Base64.Decoder decoder = Base64.getDecoder();
+//    byte[] decodedByte = decoder.decode(base64Audio.split(",")[1]);
+//    FileOutputStream fos = new FileOutputStream("clip.wav");
+//    fos.write(decodedByte);
+//    fos.close();
   }
 
 /*
