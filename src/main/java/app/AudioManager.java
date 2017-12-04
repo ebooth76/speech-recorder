@@ -2,11 +2,6 @@ package app;
 
 import javax.sound.sampled.AudioInputStream;
 
-import Voice.VoiceAPI.src.api.*;
-import api.*;
-import Voice.VoiceAPI.src.analysis.*;
-import Voice.test;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -14,7 +9,9 @@ import java.io.IOException;
 import java.util.Base64;
 import java.util.Base64.Decoder;
 
-import javax.sound.sampled.AudioInputStream;
+import src.voice.*;
+import src.voice.VoiceAPI.src.api.*;
+import api.*;
 
 /**
  * @author Aaron Wamsley
