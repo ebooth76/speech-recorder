@@ -117,6 +117,10 @@
             </goals>
             <configuration>
               <additionalProperties>
+              	<includes>
+              		<include>src.Voice.VoiceAPI.src.api.Voice.java</include>
+              		<include>src.Voice.VoiceAPI.src.api.VoiceMetaData.java</include>
+              	</includes>
                 <encoding.source>${project.build.sourceEncoding}</encoding.source>
                 <encoding.reporting>${project.reporting.outputEncoding}</encoding.reporting>
                 <java.source>${maven.compiler.source}</java.source>
