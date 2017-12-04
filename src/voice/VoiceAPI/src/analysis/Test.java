@@ -1,4 +1,4 @@
-package src.Voice.VoiceAPI.src.analysis;
+package Voice.VoiceAPI.src.analysis;
 
 import java.io.File;
 import java.io.IOException;
