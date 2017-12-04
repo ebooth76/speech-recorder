@@ -1,9 +1,9 @@
-package preprocessing;
+package Voice.VoiceAPI.src.preprocessing;
+import Voice.VoiceAPI.src.analysis.VoiceAnalysis;
+import Voice.VoiceAPI.src.api.VoiceMetaData;
+
 import java.io.File;
 import java.io.IOException;
-
-import analysis.VoiceAnalysis;
-import api.VoiceMetaData;
 
 /**
  * Class to be used for any voice pre-processing.

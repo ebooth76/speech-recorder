@@ -1,9 +1,9 @@
-package src.Voice.VoiceAPI.src.analysis;
+package Voice.VoiceAPI.src.analysis;
+
+import Voice.VoiceAPI.src.api.VoiceMetaData;
 
 import java.io.File;
 import java.io.IOException;
-
-import api.VoiceMetaData;
 
 public class Test {
 	public static void main(String[]args) throws IOException {
