@@ -1,4 +1,4 @@
-package src.Voice.VoiceAPI.src.api;
+package api;
 import java.io.File;
 
 public class Voice implements IVoice{
