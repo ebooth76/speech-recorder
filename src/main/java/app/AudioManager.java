@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Base64;
 import java.util.Base64.Decoder;
 
-import src.voice.VoiceAPI.src.api.*;
+//import src.voice.VoiceAPI.src.api.*;
 
 /**
  * @author Aaron Wamsley
@@ -79,8 +79,8 @@ public class AudioManager{
 	 * Sphinx requires audio file be in the following format:
 	 * RIFF, Little Endian, WAVE audio, Microsoft PCM, 16 bit, mono 1600Hz
 	 */
-	private VoiceMetaData sendToSphinx(File f) {
-		Voice voice = new Voice();
+	private src.voice.VoiceAPI.src.api.VoiceMetaData sendToSphinx(File f) {
+		src.voice.VoiceAPI.src.api.Voice voice = new src.voice.VoiceAPI.src.api.Voice();
 
 		//send data to sphinx and return metadata.
 		return voice.analyze(f, prompt);
