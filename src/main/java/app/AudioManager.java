@@ -9,7 +9,7 @@ import java.util.Base64.Decoder;
 
 import javax.sound.sampled.AudioInputStream;
 
-import api.Voice;
+import src.Voice.VoiceAPI.src.api.*;
 
 /**
  * @author Aaron Wamsley
