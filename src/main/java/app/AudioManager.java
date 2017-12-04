@@ -33,7 +33,7 @@ public class AudioManager{
 	 * @return string containing success or failure.  once fully implemented, will return metadata.
 	 */
 	public String analyze(String audio, String phrase, String user) {
-		test2 testing = new test2();
+		src.test2 testing = new src.test2();
 		AudioManager.prompt = phrase;
 		AudioManager.user = user;
 		if(saveAudio(audio) == 0){
