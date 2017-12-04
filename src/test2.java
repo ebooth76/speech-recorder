@@ -1,5 +1,5 @@
 package src;
-import voice*;
+import src.voice.*;;
 
 public class test2 {
 
