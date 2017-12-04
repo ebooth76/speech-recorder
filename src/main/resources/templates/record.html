@@ -147,18 +147,6 @@ if (navigator.mediaDevices.getUserMedia) {
         //    $("#greetings").html("");
         //}
 
-        function connect() {
-            var socket = new SockJS('/audio-websocket');
-            stompClient = Stomp.over(socket);
-            stompClient.connect({}, function (frame) {
-                //setConnected(true);
-                console.log('Connected: ' + frame);
-                //stompClient.subscribe('/topic/greetings', function (greeting) {
-                //    showGreeting(JSON.parse(greeting.body).content);
-                //});
-            });
-        }
-
         function disconnect() {
             if (stompClient !== null) {
                 stompClient.disconnect();
@@ -218,18 +206,26 @@ if (navigator.mediaDevices.getUserMedia) {
       }
 
       // send audio to server with post
-      var xhr = new XMLHttpRequest();
-      xhr.addEventListener("load", reqListener);
-      xhr.open("POST", "/audio", true);
-      xhr.onload = function (oEvent) {
+      //var xhr = new XMLHttpRequest();
+      //xhr.addEventListener("load", reqListener);
+      //xhr.open("POST", "/audio", true);
+      //xhr.onload = function (oEvent) {
           // do stuff?
-      };
-      xhr.send(base64data);
+      //};
+      //xhr.send(base64data);
 
       // send with websocket
-      connect();
-      stompClient.send("/app/audio", {}, base64data);
-      disconnect();
+      var socket = new SockJS('/audio-websocket');
+      stompClient = Stomp.over(socket);
+      stompClient.connect({}, function (frame) {
+          //setConnected(true);
+          console.log('Connected: ' + frame);
+          stompClient.send("/app/audio", {}, base64data);
+          disconnect();
+          //stompClient.subscribe('/topic/greetings', function (greeting) {
+          //    showGreeting(JSON.parse(greeting.body).content);
+          //});
+      });
 
       chunks = [];
       var audioURL = window.URL.createObjectURL(blob);
