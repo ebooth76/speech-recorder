@@ -96,12 +96,12 @@ public class Main {
     return "password";
   }
 
-/*
-  @GetMapping("/record")
-  String record() {
-    return "record";
-  }
-*/
+
+//  @GetMapping("/record")
+//  String record() {
+//    return "record";
+//  }
+
 
 @GetMapping("/record")
 String record(Map<String, Object> model) {
