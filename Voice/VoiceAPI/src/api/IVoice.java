@@ -12,4 +12,7 @@ public interface IVoice {
 	 * @return VoiceMetaData
 	 */
 	public VoiceMetaData analyze(File wavFile, String originalInput);
+	
+	//This is the entry point for the Voice API that will be open to researchers and will 
+	//also be utilized by the server side for ASR and Voice analytics.
 }
