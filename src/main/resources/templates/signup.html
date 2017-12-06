@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 
 <head>
 	<title>Sign up for an account.</title>
@@ -7,10 +7,10 @@
 <body>
 	<h1>Sign up</h1>
 
-	<form action="./index.html" th:action="@{/sign-up}" th:object="${user}" method=POST>
+	<form action="/" method=POST>
 		<p>
 			<label for="username">Enter a username (8-20 letters and/or numbers):</label><br />
-			<input type="text" id="username" th:field="*{username}" name="username" pattern="[\da-zA-Z]{8,20}"  required="true">
+			<input type="text" id="username" name="username" pattern="[\da-zA-Z]{8,20}"  required="true">
 		</p>
 		<!-- <p>
 			<label for="email">Enter your or your parent's email:</label><br />
@@ -18,7 +18,7 @@
 		</p> -->
 		<p>
 			<label for="password">Enter a password (8-40 letters and/or numbers):</label><br />
-			<input type="password" id="password" th:field="*{password}" name="password" pattern="[\da-zA-Z]{8,40}" required="true">
+			<input type="password" id="password" name="password" pattern="[\da-zA-Z]{8,40}" required="true">
 		</p>
 		<p>
 			<label for="password_match">Enter your password again:</label><br />
@@ -26,7 +26,7 @@
 		</p>
 		<p>
 			<label for="user_type">I am a:</label><br />
-			<select id="user_type" th:field="*{user_type}" name="user_type">
+			<select id="user_type" name="user_type">
 				<option value="patient">Patient</option>
 				<option value="therapist">Therapist</option>
 				<option value="researcher">Researcher</option>

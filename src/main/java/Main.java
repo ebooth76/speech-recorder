@@ -16,30 +16,29 @@
 
 package com.example;
 
+import app.User;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.io.FileOutputStream;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Map;
 
-package src.main.java.app;
-import app.User;
+//import api.VoiceMetaData;
+//import src.main.java.app.AudioManager;
 
 @Controller
 @SpringBootApplication
@@ -48,7 +47,7 @@ public class Main {
   @Value("${spring.datasource.url}")
   private String dbUrl;
 
-  @Autowired
+  //@Autowired
   private DataSource dataSource;
 
   public static void main(String[] args) throws Exception {
@@ -60,7 +59,7 @@ public class Main {
     return "index";
   }
 
-  @GetMapping("/login")
+/*  @GetMapping("/login")
   String loginForm() {
     return "login";
   }
@@ -71,7 +70,7 @@ public class Main {
     // Use 'user' variable (which should contain a username and password) to verify a user in the database.
     // Hash the password, and sanitize inputs
     return "login";
-  }
+  }*/
 
   // signup endpoint and committing change
   @GetMapping("/sign-up")
@@ -85,31 +84,68 @@ public class Main {
     // Hash the password, and sanitize inputs
     return "signup";
   }
+   // password endpoint and committing change
+  @GetMapping("/password")
+  String passwordForm() {
+    return "password";
+  }
+
+  @PostMapping("/password")
+  String passwordSubmit(@ModelAttribute User user) {
+
+    return "password";
+  }
+
+
+//  @GetMapping("/record")
+//  String record() {
+//    return "record";
+//  }
+
+
+@GetMapping("/record")
+String record(Map<String, Object> model) {
+  try (Connection connection = getConnection()) {
+    Statement stmt = connection.createStatement();
+    ResultSet rs = stmt.executeQuery("SELECT * FROM phrases ORDER BY RANDOM() LIMIT 1");
+    ArrayList<String> output = new ArrayList<String>();
+    while (rs.next()) {
+      output.add(rs.getString("phrase"));
+    }
+
+    model.put("records", output);
+    return "record";
+  } catch (Exception e) {
+    model.put("message", e.getMessage());
+    return "error";
+  }
+}
+
 
   @RequestMapping("/db")
-  String db(Map<String, Object> model) {
-    try (Connection connection = dataSource.getConnection()) {
-      Statement stmt = connection.createStatement();
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)");
-      stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
-      ResultSet rs = stmt.executeQuery("SELECT tick FROM ticks");
+    String db(Map<String, Object> model) {
+      try (Connection connection = getConnection()) {
+        Statement stmt = connection.createStatement();
+        stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)");
+        stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
+        ResultSet rs = stmt.executeQuery("SELECT tick FROM ticks");
 
-      ArrayList<String> output = new ArrayList<String>();
-      while (rs.next()) {
-        output.add("Read from da DB: " + rs.getTimestamp("tick"));
+        ArrayList<String> output = new ArrayList<String>();
+        while (rs.next()) {
+          output.add("Read from DB: " + rs.getTimestamp("tick"));
+        }
+
+        model.put("records", output);
+        return "db";
+      } catch (Exception e) {
+        model.put("message", e.getMessage());
+        return "error";
       }
-
-      model.put("records", output);
-      return "db";
-    } catch (Exception e) {
-      model.put("message", e.getMessage());
-      return "error";
     }
-  }
 
   @RequestMapping("/users")
   String users(Map<String, Object> model) {
-    try (Connection connection = dataSource.getConnection()) {
+    try (Connection connection = getConnection()) {
       Statement stmt = connection.createStatement();
       stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users"
       +" (user_id SERIAL NOT NULL PRIMARY KEY,"
@@ -129,6 +165,53 @@ public class Main {
       return "error";
     }
   }
+
+  @RequestMapping("/game")
+  String game(Map<String, Object> model) {
+    try (Connection connection = getConnection()) {
+      Statement stmt = connection.createStatement();
+      ResultSet rs = stmt.executeQuery("SELECT * FROM phrases ORDER BY RANDOM() LIMIT 1");
+      ArrayList<String> output = new ArrayList<String>();
+      while (rs.next()) {
+        output.add(rs.getString("phrase"));
+      }
+
+      model.put("records", output);
+      return "game";
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
+  }
+
+  // temporary
+  @PostMapping("/audio")
+  String audio(String audio) {
+    return "success";
+  }
+
+  @MessageMapping ("/audio")
+  public void stream(String base64Audio) throws Exception {
+    System.out.println("incoming message ...");
+    // write to file
+//    Base64.Decoder decoder = Base64.getDecoder();
+//    byte[] decodedByte = decoder.decode(base64Audio.split(",")[1]);
+//    FileOutputStream fos = new FileOutputStream("clip.wav");
+//    fos.write(decodedByte);
+//    fos.close();
+  }
+
+/*
+  @PostMapping("/audio")
+  String audio(String audio) {
+	  AudioManager am = new AudioManager();
+	  return am.analyze(audio);
+  }
+*/
+private static Connection getConnection() throws SQLException {
+    String dbUrl = System.getenv("JDBC_DATABASE_URL");
+    return DriverManager.getConnection(dbUrl);
+}
 
   @Bean
   public DataSource dataSource() throws SQLException {

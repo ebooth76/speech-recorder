@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>MicronoApp - Record</title>
+	<!--<link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">-->
+	<script src="/webjars/jquery/jquery.min.js"></script>
+	<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+	<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+	<!-- the following code is largely taken from the
+		MDN's example here: https://github.com/mdn/web-dictaphone-->
+	<link rel="script" th:href="@{/js/mediaDevices-getUserMedia-polyfill.js}"/>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+	<header>
+		<h1>Record audio</h1>
+	</header>
+
+	<h2> Please say the following into the microphone:</h2>
+	<ul th:each="record : ${records}">
+		<li th:text="${record}"/>
+	</ul>
+
+	<section class="main-controls">
+		<!--<canvas class="visualizer" height="60px"></canvas>-->
+		<div id="buttons">
+			<button class="record">Record</button>
+			<button class="stop">Stop</button>
+		</div>
+	</section>
+
+	<section class="sound-clips">
+	</section>
+
+	<!-- script for recording audio -->
+	<script th:src="@{/js/record-app.js}"></script>
+
+</div>
+
+</body>
+
+</html>
