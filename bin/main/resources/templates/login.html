@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>MicronoApp</title>
+	<link rel="stylesheet" th:href="@{/css/main.css}"/>
+	<!--<link rel="stylesheet" th:href="@{/css/main.css}" href="../../css/main.css" />-->
+</head>
+
+<body>
+
+<div class="container">
+	<div class="header"><a href="/"><img th:src="@{/images/microphone.png}" width="121" height="121"/><a href="/"><img
+			th:src="@{/images/micronoapp.gif}" width="626" height="129"/></a></a>
+		<!-- end .header --> <a href="/login">Sign In</a>
+		<a href="/record">Record audio</a>
+	</div>
+	<div class="content">
+		<h1>
+		</h1>
+		<p>
+			<html>
+
+			<blockquote>
+				<blockquote>
+					<blockquote>
+						<center>
+							<h1>Log in</h1></center>
+					</blockquote>
+				</blockquote>
+			</blockquote>
+			<center>
+				<form action="#" th:action="@{/login}" th:object="${user}" method=POST>
+		<p>
+			<label for="username"> Enter your username:</label>
+			<input type="text" id="username" name="username" required="true" th:object="${username}">
+		</p>
+		<p>
+			<label for="password">Enter your password:</label>
+			<input type="password" id="password" name="password" required="true" th:object="${password}">
+		</p>
+		<p>
+			<input type="submit" value="Log in">
+		</p>
+		<p><a href="/password">Forgot Password? </a></p>
+		<p>No account? <a href="/sign-up">Register</a></p>
+		</form>
+		</p></center>
+		<p></p>
+		<blockquote>
+			<blockquote>
+				<blockquote>
+					<p></p>
+				</blockquote>
+			</blockquote>
+		</blockquote>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<!-- end .content --></div>
+	<div class="footer">
+		<p>&nbsp;</p>
+		<!-- end .footer --></div>
+	<!-- end .container --></div>
+</body>
+</html>
