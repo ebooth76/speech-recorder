@@ -4,3 +4,4 @@ target
 *.iml
 Voice/CMUSphinx4/sphinx4
 *.classpath
+*.class
