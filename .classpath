@@ -4,5 +4,24 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="C:/Users/Alex/Desktop/CS471-F17-Micronophones/src/main/java/voice/sphinx4-core-5prealpha-20160628.232526-10.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Alex/Desktop/CS471-F17-Micronophones/src/main/java/voice/sphinx4-data-5prealpha-20160628.232535-10.jar"/>
+	<classpathentry kind="lib" path="C:/Users/wooki/git/CS471-F17-Micronophones/src/main/resources/drive/google-api-services-drive-v3-rev92-1.23.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/wooki/git/CS471-F17-Micronophones/src/main/resources/google-api-java-client/libs/google-api-client-1.23.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/wooki/git/CS471-F17-Micronophones/src/main/resources/google-api-java-client/libs/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/wooki/git/CS471-F17-Micronophones/src/main/resources/google-api-java-client/libs/google-api-client-gson-1.23.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/wooki/git/CS471-F17-Micronophones/src/main/resources/google-api-java-client/libs/google-api-client-java6-1.23.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/wooki/git/CS471-F17-Micronophones/src/main/resources/google-api-java-client/libs/google-api-client-protobuf-1.23.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/wooki/git/CS471-F17-Micronophones/src/main/resources/google-api-java-client/libs/google-api-client-xml-1.23.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/wooki/git/CS471-F17-Micronophones/src/main/resources/google-api-java-client/libs/google-http-client-1.23.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/wooki/git/CS471-F17-Micronophones/src/main/resources/google-api-java-client/libs/google-oauth-client-1.23.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/wooki/git/CS471-F17-Micronophones/src/main/resources/google-api-java-client/libs/google-oauth-client-java6-1.23.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/wooki/git/CS471-F17-Micronophones/src/main/resources/google-api-java-client/libs/google-oauth-client-jetty-1.23.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/wooki/git/CS471-F17-Micronophones/src/main/resources/google-api-java-client/libs/httpclient-4.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/wooki/git/CS471-F17-Micronophones/src/main/resources/google-api-java-client/libs/httpcore-4.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/wooki/git/CS471-F17-Micronophones/src/main/resources/google-api-java-client/libs/jsr305-1.3.9.jar"/>
+	<classpathentry kind="lib" path="C:/Users/wooki/git/CS471-F17-Micronophones/src/main/resources/google-api-java-client/libs/jackson-core-2.1.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/wooki/git/CS471-F17-Micronophones/src/main/resources/google-api-java-client/libs/google-api-client-jackson2-1.23.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/wooki/git/CS471-F17-Micronophones/src/main/resources/google-api-java-client/libs/google-http-client-jackson-1.23.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/wooki/git/CS471-F17-Micronophones/src/main/resources/google-api-java-client/libs/google-http-client-jackson2-1.23.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/wooki/git/CS471-F17-Micronophones/src/main/resources/google-api-java-client/libs/jackson-core-asl-1.9.11.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
