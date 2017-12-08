@@ -1,7 +1,7 @@
 package app;
 
-import Voice.VoiceAPI.src.api.Voice;
-import Voice.VoiceAPI.src.api.VoiceMetaData;
+import Voice.api.Voice;
+import Voice.api.VoiceMetaData;
 
 import javax.sound.sampled.AudioInputStream;
 import java.io.File;
