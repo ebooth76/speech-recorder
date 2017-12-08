@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="E:/eclipse-workspace/CS471-F17-Micronophones-master/src/main/java/voice/sphinx4-core-5prealpha-20160628.232526-10.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse-workspace/CS471-F17-Micronophones-master/src/main/java/voice/sphinx4-data-5prealpha-20160628.232535-10.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Alex/Desktop/CS471-F17-Micronophones/src/main/java/voice/sphinx4-core-5prealpha-20160628.232526-10.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Alex/Desktop/CS471-F17-Micronophones/src/main/java/voice/sphinx4-data-5prealpha-20160628.232535-10.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -9,12 +9,12 @@ import voice.api.VoiceMetaData;
 
 public class Test {
 	public static void main(String[] args) throws IOException {
-		File file = new File("E:\\eclipse-workspace\\CS471-F17-Micronophones-master\\10001-90210-01803.wav");
+		File file = new File("C:\\Users\\Alex\\Desktop\\CS471-F17-Micronophones\\10001-90210-01803.wav");
 		VoiceAnalysis va = new VoiceAnalysis();
 		System.out.println("Starting Test...");
 		VoiceMetaData vData = new VoiceMetaData();
 		
-		vData = va.analyze(file, "one zero zero zero one", vData);
+		vData = va.analyze(file, "one zero zero zero one one one", vData);
 		va.getVoiceScore(vData);
 	}
 }

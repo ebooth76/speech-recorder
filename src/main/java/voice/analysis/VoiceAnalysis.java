@@ -42,9 +42,10 @@ public class VoiceAnalysis{
 //		}
 		
 		nistAlign.align(refText, result.getHypothesis());
-		vData.setDeletionErrorRate(nistAlign.getTotalDeletions());
-		vData.setInsertionErrorRate(nistAlign.getTotalInsertions());
-		vData.setReplacementErrorRate(nistAlign.getTotalSubstitutions()); //I believe this is the correct method call for replacements but not sure 
+		float wordCount = nistAlign.getTotalWords();
+		vData.setDeletionErrorRate(nistAlign.getTotalDeletions() / wordCount);
+		vData.setInsertionErrorRate(nistAlign.getTotalInsertions() / wordCount);
+		vData.setReplacementErrorRate(nistAlign.getTotalSubstitutions() / wordCount); //I believe this is the correct method call for replacements but not sure 
 		vData.setOverallErrorRate(nistAlign.getTotalWordErrorRate()); //not sure if we want total word error rate for overall error rate
 		
 		recognizer.stopRecognition();
