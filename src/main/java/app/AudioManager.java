@@ -8,8 +8,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Base64.Decoder;
+
 
 /**
  * @author Aaron Wamsley
@@ -35,10 +42,32 @@ public class AudioManager{
 		AudioManager.prompt = phrase;
 		AudioManager.user = user;
 		if(saveAudio(audio) == 0){
-			if(!(sendToSphinx(audioFile)==null))
-					return "success";
+			addToDB(sendToSphinx(audioFile));
+			return "success";
 		}
 		return "failure";
+	}
+	
+	private String addToDB(VoiceMetaData vmd) {
+		try (Connection connection = getConnection()) {
+	        Statement stmt = connection.createStatement();
+	        String preppedStatement = "insert into metadata Values(" +vmd.getOverallErrorRate() + ", " +
+	        		vmd.getInsertionErrorRate() + ", " + vmd.getDeletionErrorRate() + ", " + vmd.getReplacementErrorRate() + 
+	        		", " + vmd.getPhonemicTranslationActual() + ", " + vmd.getPhonemicTranslationDesired() + ", " + vmd.getDate() + 
+	        		vmd.getTime() + audioFile.getPath() + ")";
+	        stmt.executeUpdate(preppedStatement);
+	        return "db";
+	      } catch (Exception e) {
+	        return "error";
+	      }
+	}
+	private static Connection getConnection() throws SQLException {
+	    String dbUrl = System.getenv("JDBC_DATABASE_URL");
+	    return DriverManager.getConnection(dbUrl);
+	}
+	
+	private void parseMetaData(VoiceMetaData vmd) {
+		
 	}
 	
 	/**
@@ -67,9 +96,7 @@ public class AudioManager{
 		}catch (IOException e) {
 			e.printStackTrace();
 			return 2;
-		}
-		//TODO insert entry in DB
-		
+		}		
 		return 0;
 	}
 	
