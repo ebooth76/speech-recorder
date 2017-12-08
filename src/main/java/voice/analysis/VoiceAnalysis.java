@@ -43,10 +43,14 @@ public class VoiceAnalysis{
 		
 		nistAlign.align(refText, result.getHypothesis());
 		float wordCount = nistAlign.getTotalWords();
-		vData.setDeletionErrorRate(nistAlign.getTotalDeletions() / wordCount);
-		vData.setInsertionErrorRate(nistAlign.getTotalInsertions() / wordCount);
-		vData.setReplacementErrorRate(nistAlign.getTotalSubstitutions() / wordCount); //I believe this is the correct method call for replacements but not sure 
-		vData.setOverallErrorRate(nistAlign.getTotalWordErrorRate()); //not sure if we want total word error rate for overall error rate
+		vData.setDeletionErrorRate(nistAlign.getTotalDeletions() / wordCount); // # of words left out (D) / # of words
+		vData.setInsertionErrorRate(nistAlign.getTotalInsertions() / wordCount); // # of extra words added (I) / # of words
+		
+		//I believe this is the correct method call for replacements but not sure 
+		vData.setReplacementErrorRate(nistAlign.getTotalSubstitutions() / wordCount); // # of words said wrong (S) / # of words
+		
+		//not sure if we want total word error rate for overall error rate
+		vData.setOverallErrorRate(nistAlign.getTotalWordErrorRate()); // (S + D + I) / # of words
 		
 		recognizer.stopRecognition();
 		return vData;
@@ -74,9 +78,9 @@ public class VoiceAnalysis{
 		float rErrRate = vData.getReplacementErrorRate();
 		float oErrRate = vData.getOverallErrorRate();
 		
-		double dErrFactor = 0.10;	// Deletion Error Factor
-		double iErrFactor = 0.10;	// Insertion Error Factor
-		double rErrFactor = 0.10;	// Replacement Error Factor
+		double dErrFactor = 0.30;	// Deletion Error Factor
+		double iErrFactor = 0.30;	// Insertion Error Factor
+		double rErrFactor = 0.30;	// Replacement Error Factor
 		double oErrFactor = 0.10;	// Overall Error Factor
 		
 		System.out.println("Deletion Error Rate: " + dErrRate);
