@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
+import com.sun.org.apache.xml.internal.security.utils.SignerOutputStream;
 public class VoiceAnalysis{
 
 	public VoiceMetaData analyze(File wavFile, String refText, VoiceMetaData vData) throws IOException{
@@ -50,5 +52,50 @@ public class VoiceAnalysis{
 
 	}
 
-
+	
+	/**
+	 * The scoring for right now is only in here to show that we can get a scored. 
+	 * Once we can get a better evaluation of the word/phrase then we can change the scoring
+	 * based on that information. 
+	 * 
+	 * The the score is based on the error rates of different ways to mess up the word/phrase, 
+	 * and then depending on that rate I have added a factor to generate a score.
+	 * 
+	 * @param vData
+	 * @return score
+	 */
+	public int getVoiceScore(VoiceMetaData vData) {
+		
+		int score = 100; // 100% percent
+		
+		float dErrRate = vData.getDeletionErrorRate();
+		float iErrRate = vData.getInsertionErrorRate();
+		float rErrRate = vData.getReplacementErrorRate();
+		float oErrRate = vData.getOverallErrorRate();
+		
+		double dErrFactor = 0.10;	// Deletion Error Factor
+		double iErrFactor = 0.10;	// Insertion Error Factor
+		double rErrFactor = 0.10;	// Replacement Error Factor
+		double oErrFactor = 0.10;	// Overall Error Factor
+		
+		System.out.println("Deletion Error Rate: " + dErrRate);
+		System.out.println("Insertion Error Rate: " + iErrRate);
+		System.out.println("Replacement Error Rate: " + rErrRate);
+		System.out.println("Overall Error Rate: " + oErrRate + "\n");
+		
+		double dScore = dErrRate * dErrFactor;
+		double iScore = iErrRate * iErrFactor;
+		double rScore = rErrRate * rErrFactor;
+		double oScore = oErrRate * oErrFactor;
+		
+		double reduction = (dScore + iScore + rScore + oScore) * 100.00;
+		
+		score -= reduction;
+		
+		System.out.println("Reduction Value: " + reduction);
+		
+		System.out.println("Score: " + score);
+		
+		return score;
+	}
 }
