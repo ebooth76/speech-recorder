@@ -60,10 +60,11 @@
 	  <version>1.23.0</version>
 	</dependency>  
 	 <dependency>
-	  <groupId>com.google.oauth-client</groupId>
-	  <artifactId>google-oauth-client-jetty</artifactId>
-	  <version>1.23.0</version>
-	</dependency> 
+	    <groupId>com.google.oauth-client</groupId>
+	    <artifactId>google-oauth-client-jetty</artifactId>
+	    <version>1.23.0</version>
+	</dependency>
+ 
     <!-- Spring and Spring Boot dependencies -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
