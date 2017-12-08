@@ -38,7 +38,7 @@
   </repositories>
 
   <dependencies>
-  	<!-- Google Drive Dependencies 
+  	<!-- Google Drive Dependencies -->
   	<dependency>
      <groupId>com.google.api-client</groupId>
      <artifactId>google-api-client</artifactId>
@@ -59,11 +59,11 @@
 	  <artifactId>google-oauth-client-java6</artifactId>
 	  <version>1.23.0</version>
 	</dependency>
-	<dependency>
+<!-- <dependency>
 	  <groupId>com.google.oauth-client</groupId>
 	  <artifactId>google-oauth-client-jetty</artifactId>
 	  <version>1.23.0</version>
-	</dependency> -->
+	</dependency>
     <!-- Spring and Spring Boot dependencies -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
