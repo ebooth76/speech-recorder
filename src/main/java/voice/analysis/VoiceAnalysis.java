@@ -27,10 +27,17 @@ public class VoiceAnalysis{
 		InputStream stream = new FileInputStream(wavFile);
 
 		recognizer.startRecognition(stream);
-		SpeechResult result; //need to define this value 
-		while ((result = recognizer.getResult()) != null) {
+		SpeechResult result = recognizer.getResult(); 
+		if(result != null) { 
 			System.out.format("Hypothesis: %s\n", result.getHypothesis());
 		}
+		else {
+			System.out.println("Recognizer did not hear anything.");
+		}
+//		}
+//		while ((result = recognizer.getResult()) != null) {
+//			System.out.format("Hypothesis: %s\n", result.getHypothesis());
+//		}
 		
 		nistAlign.align(refText, result.getHypothesis());
 		vData.setDeletionErrorRate(nistAlign.getTotalDeletions());
