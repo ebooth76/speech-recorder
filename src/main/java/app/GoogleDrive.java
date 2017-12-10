@@ -7,6 +7,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.FileContent;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -112,7 +113,17 @@ public class GoogleDrive {
 		}
 	}
 	
-	public boolean saveFile(File f) {
-		return false;
+	public File saveFile(java.io.File audioFile) {
+		File file = new File();
+		FileContent fc = new FileContent("audio/wav", audioFile);
+		file.setName(file.getName());
+		try {
+			file = service.files().create(file, fc)
+			    .setFields("id")
+			    .execute();
+		} catch (IOException e) {
+			return null;
+		}
+		return file;
 	}
 }

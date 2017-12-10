@@ -80,16 +80,18 @@ public class AudioManager{
 		Decoder decoder = Base64.getDecoder();
 		buffer = decoder.decode(audio.split(",")[1]);
 		//TODO create path to save to
-		String path = "where to save";
+		String path = "audio/";
 		//generate file name
 		String name = user + System.currentTimeMillis() + ".wav";
-		//save file name to path
-		String saveFile = path + "\\" + name;
+		//save file name to Google Drive
+		GoogleDrive drive = new GoogleDrive();
+		String saveFile = path + name;
 		try {
 			FileOutputStream fileOut = new FileOutputStream(saveFile);
 			fileOut.write(buffer);
 			fileOut.close();
 			audioFile = new File(saveFile);
+			drive.saveFile(audioFile);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			return 1;
