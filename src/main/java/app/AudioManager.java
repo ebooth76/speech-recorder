@@ -79,13 +79,11 @@ public class AudioManager{
 	private int saveAudio(String audio) {
 		Decoder decoder = Base64.getDecoder();
 		buffer = decoder.decode(audio.split(",")[1]);
-		//TODO create path to save to
-		String path = "audio/";
 		//generate file name
 		String name = user + System.currentTimeMillis() + ".wav";
 		//save file name to Google Drive
 		GoogleDrive drive = new GoogleDrive();
-		String saveFile = path + name;
+		String saveFile = name;
 		try {
 			FileOutputStream fileOut = new FileOutputStream(saveFile);
 			fileOut.write(buffer);
