@@ -40,7 +40,7 @@ Westmoreland             | Lucas             | lucaswestmoreland                
 Sprint | Estimated Velocity | Actual Velocity
 ------ | ------------------ | ---------------
 1  |39               | 39
-2  | 42              | TBD
+2  | 42              | 34
 3   | TBD                | TBD
 4  | TBD                | TBD
 
