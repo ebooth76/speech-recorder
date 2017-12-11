@@ -9,7 +9,7 @@ public interface IVoice {
 	 * as well as what the subject was intending to say.
 	 * @param wavFile The voice data of the subject (file handle).
 	 * @param originalInput A string of text that represents the "game" the subject attempted to say.
-	 * @return VoiceMetaData
+	 * @return VoiceMetaData or null if failure
 	 */
 	public VoiceMetaData analyze(File wavFile, String originalInput);
 	
