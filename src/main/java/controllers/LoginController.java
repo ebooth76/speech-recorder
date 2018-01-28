@@ -85,7 +85,7 @@ public class LoginController {
             }
             else {
                 session.setAttribute("Login", user.getUsername());
-                return "signup";
+                return "record";
             }
         } catch (Exception e) {
             return "error";
