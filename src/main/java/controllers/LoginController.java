@@ -28,61 +28,84 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Map;
 
 import app.User;
+import org.springframework.web.servlet.ModelAndView;
 //import src.main.java.app.AudioManager;
 
 @Controller
 @SpringBootApplication
+@SessionAttributes("Login")
 public class LoginController {
 
-  @Value("${spring.datasource.url}")
-  private String dbUrl;
+    @Value("${spring.datasource.url}")
+    private String dbUrl;
 
-  //@Autowired
-  private DataSource dataSource;
+    //@Autowired
+    private DataSource dataSource;
 
-  //public static void main(String[] args) throws Exception {
-  //  SpringApplication.run(Main.class, args);
-  //}
+    private User user;
 
-  @GetMapping("/login")
-  public String loginForm(Model model) {
-	model.addAttribute("user", new User());
-    	return "login";
-  }
+    //public static void main(String[] args) throws Exception {
+    //  SpringApplication.run(Main.class, args);
+    //}
 
-  // login endpoint and committing change
-  @PostMapping("/login")
-  String loginSubmit(@ModelAttribute User user) {
-    // Use 'user' variable (which should contain a username and password) to verify a user in the database.
-try (Connection connection = dataSource.getConnection()) {
-     	Statement stmt = connection.createStatement();
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users"
-      +" (user_id SERIAL NOT NULL PRIMARY KEY,"
-      +" username varchar(225) NOT NULL UNIQUE,"
-      +" password varchar(225),"
-      +" user_type varchar(255))");
-      ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE username = " + user.getUsername() + " AND password = " + user.getPassword() + "LIMIT 1;");
-	if(rs.getFetchSize() == 0)
-		return "error";
-	else 
-		return "index";
-    } catch (Exception e) {
-      return "error";
+    @GetMapping("/login")
+    public String loginForm(Model model) {
+        model.addAttribute("user", new User());
+        return "login";
     }
-  }
 
+    // login endpoint and committing change
+    @PostMapping("/login")
+    String loginSubmit(@ModelAttribute User user, HttpSession session) {
+        // Use 'user' variable (which should contain a username and password) to verify a user in the database.
+
+        try (Connection connection = getConnection()) {
+            Statement stmt = connection.createStatement();
+            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users"
+                    +" (user_id SERIAL NOT NULL PRIMARY KEY,"
+                    +" username varchar(225) NOT NULL UNIQUE,"
+                    +" password varchar(225),"
+                    +" user_type varchar(255))");
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM users WHERE username = ? AND password = ? LIMIT 1;");
+            ps.setString(1, user.getUsername());
+            ps.setString(2, user.getPassword());
+            ResultSet rs = ps.executeQuery();
+
+            if(!rs.isBeforeFirst()) {
+                return "error";
+            }
+            else {
+                session.setAttribute("Login", user.getUsername());
+                return "signup";
+            }
+        } catch (Exception e) {
+            return "error";
+        }
+    }
+
+    private static Connection getConnection() throws SQLException {
+        //String dbUrl = System.getenv("JDBC_DATABASE_URL");
+        String dbUrl = "jdbc:postgresql://ec2-54-225-112-61.compute-1.amazonaws.com:5432/ds0m2g3nacuvc?sslmode=require&user=huzjrznhoilodv&password=e3670ef2720dba4d5b47c5298a34e481fc0765298256e29faf0a6237d4726983";
+        return DriverManager.getConnection(dbUrl);
+    }
+
+    @Bean
+    public DataSource dataSource() throws SQLException {
+        if (dbUrl == null || dbUrl.isEmpty()) {
+            return new HikariDataSource();
+        } else {
+            HikariConfig config = new HikariConfig();
+            config.setJdbcUrl(dbUrl);
+            return new HikariDataSource(config);
+        }
+    }
 }

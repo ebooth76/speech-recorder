@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.io.FileOutputStream;
 import java.sql.*;
@@ -59,26 +60,17 @@ public class Main {
     return "index";
   }
 
-/*  @GetMapping("/login")
-  String loginForm() {
-    return "login";
-  }
-
-  // login endpoint and committing change
-  @PostMapping("/login")
-  String loginSubmit(@ModelAttribute User user) {
-    // Use 'user' variable (which should contain a username and password) to verify a user in the database.
-    // Hash the password, and sanitize inputs
-    return "login";
-  }*/
-
   // signup endpoint and committing change
-  @GetMapping("/sign-up")
-  String signupForm() {
-    return "signup";
+  @GetMapping("/signup")
+  String signupForm(HttpSession session) {
+    if(session.getAttribute("Login") != null)
+      return "error";
+    else {
+      return "signup";
+    }
   }
 
-  @PostMapping("/sign-up")
+  @PostMapping("/signup")
   String signupSubmit(@ModelAttribute User user) {
     // Use 'user' variable (username/password/type) to create a new row in the user database table.
     // Hash the password, and sanitize inputs
@@ -121,50 +113,6 @@ String record(Map<String, Object> model) {
   }
 }
 
-
-  @RequestMapping("/db")
-    String db(Map<String, Object> model) {
-      try (Connection connection = getConnection()) {
-        Statement stmt = connection.createStatement();
-        stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)");
-        stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
-        ResultSet rs = stmt.executeQuery("SELECT tick FROM ticks");
-
-        ArrayList<String> output = new ArrayList<String>();
-        while (rs.next()) {
-          output.add("Read from DB: " + rs.getTimestamp("tick"));
-        }
-
-        model.put("records", output);
-        return "db";
-      } catch (Exception e) {
-        model.put("message", e.getMessage());
-        return "error";
-      }
-    }
-
-  @RequestMapping("/users")
-  String users(Map<String, Object> model) {
-    try (Connection connection = getConnection()) {
-      Statement stmt = connection.createStatement();
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users"
-      +" (user_id SERIAL NOT NULL PRIMARY KEY,"
-      +" username varchar(225) NOT NULL UNIQUE,"
-      +" password varchar(225),"
-      +" user_type varchar(255))");
-      ResultSet rs = stmt.executeQuery("SELECT * FROM users");
-      ArrayList<String> output = new ArrayList<String>();
-      while (rs.next()) {
-        output.add("Read from DB: " + rs.next());
-      }
-
-      model.put("records", output);
-      return "db";
-    } catch (Exception e) {
-      model.put("message", e.getMessage());
-      return "error";
-    }
-  }
 
   @RequestMapping("/game")
   String game(Map<String, Object> model) {
