@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import app.User;
+import app.DatabaseObject;
 import org.springframework.web.servlet.ModelAndView;
 //import src.main.java.app.AudioManager;
 
@@ -47,15 +48,6 @@ public class LoginController {
 
     @Value("${spring.datasource.url}")
     private String dbUrl;
-
-    //@Autowired
-    private DataSource dataSource;
-
-    private User user;
-
-    //public static void main(String[] args) throws Exception {
-    //  SpringApplication.run(Main.class, args);
-    //}
 
     @GetMapping("/login")
     public String loginForm(Model model) {
@@ -68,7 +60,7 @@ public class LoginController {
     String loginSubmit(@ModelAttribute User user, HttpSession session) {
         // Use 'user' variable (which should contain a username and password) to verify a user in the database.
 
-        try (Connection connection = getConnection()) {
+        try (Connection connection = DatabaseObject.getConnection()) {
             Statement stmt = connection.createStatement();
             stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users"
                     +" (user_id SERIAL NOT NULL PRIMARY KEY,"
@@ -89,23 +81,6 @@ public class LoginController {
             }
         } catch (Exception e) {
             return "error";
-        }
-    }
-
-    private static Connection getConnection() throws SQLException {
-        //String dbUrl = System.getenv("JDBC_DATABASE_URL");
-        String dbUrl = "jdbc:postgresql://ec2-54-225-112-61.compute-1.amazonaws.com:5432/ds0m2g3nacuvc?sslmode=require&user=huzjrznhoilodv&password=e3670ef2720dba4d5b47c5298a34e481fc0765298256e29faf0a6237d4726983";
-        return DriverManager.getConnection(dbUrl);
-    }
-
-    @Bean
-    public DataSource dataSource() throws SQLException {
-        if (dbUrl == null || dbUrl.isEmpty()) {
-            return new HikariDataSource();
-        } else {
-            HikariConfig config = new HikariConfig();
-            config.setJdbcUrl(dbUrl);
-            return new HikariDataSource(config);
         }
     }
 }

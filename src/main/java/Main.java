@@ -60,22 +60,6 @@ public class Main {
     return "index";
   }
 
-  // signup endpoint and committing change
-  @GetMapping("/signup")
-  String signupForm(HttpSession session) {
-    if(session.getAttribute("Login") != null)
-      return "error";
-    else {
-      return "signup";
-    }
-  }
-
-  @PostMapping("/signup")
-  String signupSubmit(@ModelAttribute User user) {
-    // Use 'user' variable (username/password/type) to create a new row in the user database table.
-    // Hash the password, and sanitize inputs
-    return "signup";
-  }
    // password endpoint and committing change
   @GetMapping("/password")
   String passwordForm() {
