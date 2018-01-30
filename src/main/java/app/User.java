@@ -6,7 +6,7 @@ public class User {
     private long id;
     private String username;
     private String password;
-    private String user_type;
+    private String userType;
 
     public long getId() {
         return id;
@@ -33,11 +33,11 @@ public class User {
     }
 
     public String getUserType(){
-        return user_type;
+        return userType;
     }
 
     public void setUserType(){
-        this.user_type = user_type;
+        this.userType = userType;
     }
 
 }

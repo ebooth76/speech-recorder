@@ -17,6 +17,7 @@
 
 package com.example;
 
+import app.DatabaseObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -29,6 +30,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 
 import app.User;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 @Controller
 @SpringBootApplication
@@ -51,7 +57,28 @@ public class SignupController {
     String signupSubmit(@ModelAttribute User user) {
         // Use 'user' variable (username/password/type) to create a new row in the user database table.
         // Hash the password, and sanitize inputs
-        return "signup";
+
+        try (Connection connection = DatabaseObject.getConnection()) {
+            Statement stmt = connection.createStatement();
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM users WHERE username = ? LIMIT 1;");
+            ps.setString(1, user.getUsername());
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.isBeforeFirst()) {
+                return "error";
+            }
+            else {
+                // If no username was returned create a new user
+                ps = connection.prepareStatement("INSERT INTO users (username, password, user_type) VALUES (?, ?, ?)");
+                ps.setString(1, user.getUsername());
+                ps.setString(2, user.getPassword());
+                ps.setString(3, user.getUserType());
+                ps.execute();
+                return "login";
+            }
+        } catch (Exception e) {
+            return "error";
+        }
     }
 }
 
