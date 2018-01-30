@@ -5,6 +5,7 @@ import edu.cmu.sphinx.api.SpeechResult;
 import edu.cmu.sphinx.api.StreamSpeechRecognizer;
 import edu.cmu.sphinx.util.NISTAlign;
 import voice.api.VoiceMetaData;
+import edu.cmu.sphinx.result.Result;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,9 +30,10 @@ public class VoiceAnalysis{
 		InputStream stream = new FileInputStream(wavFile);
 
 		recognizer.startRecognition(stream);
-		SpeechResult result = recognizer.getResult(); 
+		SpeechResult result = recognizer.getResult();
+		Result temp = result.getResult();
 		if(result != null) { 
-			System.out.format("Hypothesis: %s\n", result.getHypothesis());
+			System.out.format("Phoneme Hypothesis: %s\n", temp.getBestPronunciationResult());
 		}
 		else {
 			System.out.println("Recognizer did not hear anything.");
