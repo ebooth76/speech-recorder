@@ -118,8 +118,9 @@ String record(Map<String, Object> model) {
 
   // temporary
   @PostMapping("/audio")
-  String audio(String audio) {
-    return "success";
+  String audio(String audio, String prompt, String user) {
+    app.AudioManager am = new app.AudioManager();
+    return am.analyze(audio, prompt, user);
   }
 
   @MessageMapping ("/audio")
@@ -133,13 +134,6 @@ String record(Map<String, Object> model) {
 //    fos.close();
   }
 
-/*
-  @PostMapping("/audio")
-  String audio(String audio) {
-	  AudioManager am = new AudioManager();
-	  return am.analyze(audio);
-  }
-*/
 private static Connection getConnection() throws SQLException {
     String dbUrl = System.getenv("JDBC_DATABASE_URL");
     return DriverManager.getConnection(dbUrl);
