@@ -1,73 +1,67 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<title>MicronoApp</title>
-	<link rel="stylesheet" th:href="@{/css/main.css}"/>
-	<!--<link rel="stylesheet" th:href="@{/css/main.css}" href="../../css/main.css" />-->
-</head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+	<link rel="stylesheet" th:href="@{css/theme2.css}"> </head>
 
 <body>
-
-<div class="container">
-	<div class="header"><a href="/"><img th:src="@{/images/microphone.png}" width="121" height="121"/><a href="/"><img
-			th:src="@{/images/micronoapp.gif}" width="626" height="129"/></a></a>
-		<!-- end .header --> <a href="/login">Log In</a>
-		<a href="/record">Record audio</a>
+<div class="py-5">
+	<div class="container">
+		<div class="row text-dark">
+			<div class="col-md-3"> </div>
+			<div class="col-md-6">
+				<div class="card text-white p-5 bg-primary">
+					<div class="card-body">
+						<h1 class="mb-4">Login form</h1>
+						<form action="https://formspree.io/YOUREMAILHERE">
+							<div class="form-group"> <label>Email address</label>
+								<input type="email" class="form-control" placeholder="Enter email" id="username" name="username" required="true" th:object="${username}"> </div>
+							<div class="form-group"> <label>Password</label>
+								<input type="password" class="form-control" placeholder="Password" id="password" name="password" required="true" th:object="${password}"> </div>
+							<button type="submit" class="btn btn-secondary">Login</button>
+						</form>
+						<div class="row">
+							<div class="col-md-6">
+								<a class="btn btn-secondary" href="signup.html">Sign up</a>
+							</div>
+							<div class="col-md-6">
+								<a class="text-secondary" href="password.html">Forgot password?</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-	<div class="content">
-		<h1>
-		</h1>
-		<p>
-			<html>
-
-			<blockquote>
-				<blockquote>
-					<blockquote>
-						<center>
-							<h1>Log in</h1></center>
-					</blockquote>
-				</blockquote>
-			</blockquote>
-			<center>
-				<form action="#" th:action="@{/login}" th:object="${user}" method=POST>
-		<p>
-			<label for="username"> Enter your username:</label>
-			<input type="text" id="username" name="username" required="true" th:object="${username}">
-		</p>
-		<p>
-			<label for="password">Enter your password:</label>
-			<input type="password" id="password" name="password" required="true" th:object="${password}">
-		</p>
-		<p>
-			<input type="submit" value="Log in">
-		</p>
-		<p><a href="/password">Forgot Password? </a></p>
-		<p>No account? <a href="/signup">Register</a></p>
-		</form>
-		</p></center>
-		<p></p>
-		<blockquote>
-			<blockquote>
-				<blockquote>
-					<p></p>
-				</blockquote>
-			</blockquote>
-		</blockquote>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<!-- end .content --></div>
-	<div class="footer">
-		<p>&nbsp;</p>
-		<!-- end .footer --></div>
-	<!-- end .container --></div>
+</div>
+<div class="py-5">
+	<div class="container">
+		<div class="row text-dark">
+			<div class="col-md-12"> </div>
+		</div>
+	</div>
+</div>
+<nav class="navbar navbar-expand-md bg-primary navbar-dark fixed-top">
+	<div class="container-fluid">
+		<a class="navbar-brand" th:href="@{index.html}"><i class="fa d-inline fa-lg fa-cloud"></i><b>Micronophones</b></a>
+		<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar2SupportedContent" aria-controls="navbar2SupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+		<div class="collapse navbar-collapse text-center justify-content-end" id="navbar2SupportedContent">
+			<ul class="navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link" href="#"><i class="fa d-inline fa-lg fa-envelope-o"></i>Contact</a>
+				</li>
+			</ul>
+			<a class="btn navbar-btn ml-2 text-white btn-secondary" href="login.html"><i class="fa d-inline fa-lg fa-user-circle-o"></i> Sign in</a>
+		</div>
+	</div>
+</nav>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
+
 </html>
