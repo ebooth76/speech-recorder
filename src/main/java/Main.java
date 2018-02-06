@@ -16,6 +16,7 @@
 
 package com.example;
 
+import app.AudioManager;
 import app.User;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.json.*;
 
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
@@ -117,21 +119,30 @@ String record(Map<String, Object> model) {
   }
 
   // temporary
-  @PostMapping("/audio")
-  String audio(String audio, String prompt, String user) {
-    app.AudioManager am = new app.AudioManager();
-    return am.analyze(audio, prompt, user);
-  }
+//  @PostMapping("/audio")
+//  String audio(String audio, String prompt, String user) {
+//    app.AudioManager am = new app.AudioManager();
+//    return am.analyze(audio, prompt, user);
+//  }
 
   @MessageMapping ("/audio")
-  public void stream(String base64Audio) throws Exception {
+  public String audio(String packet) throws Exception {
     System.out.println("incoming message ...");
+
+    JSONObject obj = new JSONObject(packet);
+    String text = obj.getString("text");
+    String audio = obj.getString("audio");
+
+//    System.out.println(text + audio);
+
     // write to file
 //    Base64.Decoder decoder = Base64.getDecoder();
-//    byte[] decodedByte = decoder.decode(base64Audio.split(",")[1]);
+//    byte[] decodedByte = decoder.decode(arr.split(",")[1]);
 //    FileOutputStream fos = new FileOutputStream("clip.wav");
 //    fos.write(decodedByte);
 //    fos.close();
+    AudioManager am = new AudioManager();
+    return am.analyze(audio, text, "default");
   }
 
 private static Connection getConnection() throws SQLException {

@@ -101,7 +101,12 @@ if (navigator.mediaDevices.getUserMedia) {
 		stompClient = Stomp.over(socket);
 		stompClient.connect({}, function (frame) {
 			console.log('Connected: ' + frame);
-			stompClient.send("/app/audio", {}, base64data);
+			var word = $("#record-text").text();
+			var test = "hello";
+			var data = {text: word, audio: base64data};
+			console.log("record text " + word);
+			stompClient.send("/app/audio", {}, JSON.stringify(data));
+			console.log(JSON.stringify(data));
 			//disconnect
 			if (stompClient !== null) {
 			  stompClient.disconnect();
