@@ -35,6 +35,16 @@
         <enabled>true</enabled>
       </snapshots>
     </repository>
+    <repository>
+      <id>mvn-repo</id>
+      <url>https://mvnrepository.com/artifact/org.webjars/bootstrap</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
   </repositories>
 
   <dependencies>
@@ -158,12 +168,17 @@
 	    <artifactId>xml-security-impl</artifactId>
 	    <version>1.0</version>
 	</dependency>
+    <!-- https://mvnrepository.com/artifact/org.webjars/bootstrap -->
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>bootstrap</artifactId>
+      <version>4.0.0</version>
+    </dependency>
     <dependency>
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
       <version>20180130</version>
     </dependency>
-	    
   </dependencies>
 
   <build>
