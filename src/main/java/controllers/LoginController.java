@@ -59,7 +59,9 @@ public class LoginController {
     @PostMapping("/login")
     String loginSubmit(@ModelAttribute User user, HttpSession session) {
         // Use 'user' variable (which should contain a username and password) to verify a user in the database.
-        try (Connection connection = DatabaseObject.getConnection()) {
+        Connection connection = null;
+        try {
+            connection = DatabaseObject.getConnection();
             Statement stmt = connection.createStatement();
             stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users"
                     +" (user_id SERIAL NOT NULL PRIMARY KEY,"
@@ -82,6 +84,13 @@ public class LoginController {
             }
         } catch (Exception e) {
             return "error";
+        }finally{
+            try{
+                if(connection != null){
+                    connection.close();
+                }
+            }catch(Exception e){
+            }
         }
     }
 }
