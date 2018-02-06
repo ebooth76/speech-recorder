@@ -56,6 +56,7 @@ public class AudioManager{
 	        		", " + vmd.getPhonemicTranslationActual() + ", " + vmd.getPhonemicTranslationDesired() + ", " + vmd.getDate() + 
 	        		vmd.getTime() + audioFile.getPath() + ")";
 	        stmt.executeUpdate(preppedStatement);
+			connection.close();
 	        return "db";
 	      } catch (Exception e) {
 	        return "error";

@@ -72,10 +72,12 @@ public class LoginController {
             ResultSet rs = ps.executeQuery();
 
             if(!rs.isBeforeFirst()) {
+                connection.close();
                 return "error";
             }
             else {
                 session.setAttribute("Login", user.getUsername());
+                connection.close();
                 return "record";
             }
         } catch (Exception e) {

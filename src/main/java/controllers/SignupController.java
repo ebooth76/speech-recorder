@@ -65,6 +65,7 @@ public class SignupController {
             ResultSet rs = ps.executeQuery();
 
             if(rs.isBeforeFirst()) {
+                connection.close();
                 return "error";
             }
             else {
@@ -74,6 +75,7 @@ public class SignupController {
                 ps.setString(2, user.getPassword());
                 ps.setString(3, user.getUserType());
                 ps.execute();
+                connection.close();
                 return "login";
             }
         } catch (Exception e) {

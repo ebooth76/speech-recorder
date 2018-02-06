@@ -92,6 +92,7 @@ String record(Map<String, Object> model) {
     }
 
     model.put("records", output);
+    connection.close();
     return "record";
   } catch (Exception e) {
     model.put("message", e.getMessage());
@@ -111,6 +112,7 @@ String record(Map<String, Object> model) {
       }
 
       model.put("records", output);
+      connection.close();
       return "game";
     } catch (Exception e) {
       model.put("message", e.getMessage());
