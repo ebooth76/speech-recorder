@@ -101,7 +101,7 @@ if (navigator.mediaDevices.getUserMedia) {
 		stompClient = Stomp.over(socket);
 		stompClient.connect({}, function (frame) {
 			console.log('Connected: ' + frame);
-			var word = $("#record-text").attr('text');
+			var word = $("#record-text").text();
 			var test = "hello";
 			var data = {text: word, audio: base64data};
 			console.log("record text " + word);
