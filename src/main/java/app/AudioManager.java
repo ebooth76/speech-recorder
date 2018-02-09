@@ -42,8 +42,9 @@ public class AudioManager{
 		AudioManager.prompt = phrase;
 		AudioManager.user = user;
 		if(saveAudio(audio) == 0){
-			addToDB(sendToSphinx(audioFile));
-			return "success";
+			VoiceMetaData vmd = sendToSphinx((audioFile));
+			addToDB(vmd);
+			return vmd.toString();
 		}
 		return "failure";
 	}
@@ -83,12 +84,11 @@ public class AudioManager{
 		String name = user + System.currentTimeMillis() + ".wav";
 		//save file name to Google Drive
 		GoogleDrive drive = new GoogleDrive();
-		String saveFile = name;
 		try {
-			FileOutputStream fileOut = new FileOutputStream(saveFile);
+			FileOutputStream fileOut = new FileOutputStream(name);
 			fileOut.write(buffer);
 			fileOut.close();
-			audioFile = new File(saveFile);
+			audioFile = new File(name);
 			drive.saveFile(audioFile);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example;
+package  com.example;
 
 import app.User;
 import com.zaxxer.hikari.HikariConfig;
