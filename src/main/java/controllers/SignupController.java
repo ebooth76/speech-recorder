@@ -57,14 +57,16 @@ public class SignupController {
     String signupSubmit(@ModelAttribute User user) {
         // Use 'user' variable (username/password/type) to create a new row in the user database table.
         // Hash the password, and sanitize inputs
-
-        try (Connection connection = DatabaseObject.getConnection()) {
+        Connection connection = null;
+        try {
+            connection = DatabaseObject.getConnection();
             Statement stmt = connection.createStatement();
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM users WHERE username = ? LIMIT 1;");
             ps.setString(1, user.getUsername());
             ResultSet rs = ps.executeQuery();
 
             if(rs.isBeforeFirst()) {
+                connection.close();
                 return "error";
             }
             else {
@@ -74,10 +76,18 @@ public class SignupController {
                 ps.setString(2, user.getPassword());
                 ps.setString(3, user.getUserType());
                 ps.execute();
+                connection.close();
                 return "login";
             }
         } catch (Exception e) {
             return "error";
+        }finally{
+            try{
+                if(connection != null){
+                    connection.close();
+                }
+            }catch(Exception e){
+            }
         }
     }
 }

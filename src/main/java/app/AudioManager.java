@@ -50,17 +50,27 @@ public class AudioManager{
 	}
 	
 	private String addToDB(VoiceMetaData vmd) {
-		try (Connection connection = getConnection()) {
+        Connection connection = null;
+        try {
+            connection = DatabaseObject.getConnection();
 	        Statement stmt = connection.createStatement();
 	        String preppedStatement = "insert into metadata Values(" +vmd.getOverallErrorRate() + ", " +
 	        		vmd.getInsertionErrorRate() + ", " + vmd.getDeletionErrorRate() + ", " + vmd.getReplacementErrorRate() + 
 	        		", " + vmd.getPhonemicTranslationActual() + ", " + vmd.getPhonemicTranslationDesired() + ", " + vmd.getDate() + 
 	        		vmd.getTime() + audioFile.getPath() + ")";
 	        stmt.executeUpdate(preppedStatement);
+			connection.close();
 	        return "db";
 	      } catch (Exception e) {
 	        return "error";
-	      }
+	      }finally{
+            try{
+                if(connection != null){
+                    connection.close();
+                }
+            }catch(Exception e){
+            }
+        }
 	}
 	private static Connection getConnection() throws SQLException {
 	    String dbUrl = System.getenv("JDBC_DATABASE_URL");

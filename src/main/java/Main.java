@@ -16,6 +16,7 @@
 
 package  com.example;
 
+import app.AudioManager;
 import app.User;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.json.*;
 
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
@@ -45,32 +47,32 @@ import java.util.Map;
 @SpringBootApplication
 public class Main {
 
-  @Value("${spring.datasource.url}")
-  private String dbUrl;
+    @Value("${spring.datasource.url}")
+    private String dbUrl;
 
-  //@Autowired
-  private DataSource dataSource;
+    //@Autowired
+    private DataSource dataSource;
 
-  public static void main(String[] args) throws Exception {
-    SpringApplication.run(Main.class, args);
-  }
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(Main.class, args);
+    }
 
-  @RequestMapping("/")
-  String index() {
-    return "index";
-  }
+    @RequestMapping("/")
+    String index() {
+        return "index";
+    }
 
-   // password endpoint and committing change
-  @GetMapping("/password")
-  String passwordForm() {
-    return "password";
-  }
+    // password endpoint and committing change
+    @GetMapping("/password")
+    String passwordForm() {
+        return "password";
+    }
 
-  @PostMapping("/password")
-  String passwordSubmit(@ModelAttribute User user) {
+    @PostMapping("/password")
+    String passwordSubmit(@ModelAttribute User user) {
 
-    return "password";
-  }
+        return "password";
+    }
 
 
 //  @GetMapping("/record")
@@ -79,75 +81,104 @@ public class Main {
 //  }
 
 
-@GetMapping("/record")
-String record(Map<String, Object> model) {
-  try (Connection connection = getConnection()) {
-    Statement stmt = connection.createStatement();
-    ResultSet rs = stmt.executeQuery("SELECT * FROM phrases ORDER BY RANDOM() LIMIT 1");
-    ArrayList<String> output = new ArrayList<String>();
-    while (rs.next()) {
-      output.add(rs.getString("phrase"));
+    @GetMapping("/record")
+    String record(Map<String, Object> model) {
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM phrases ORDER BY RANDOM() LIMIT 1");
+            ArrayList<String> output = new ArrayList<String>();
+            while (rs.next()) {
+                output.add(rs.getString("phrase"));
+            }
+
+            model.put("records", output);
+            connection.close();
+            return "record";
+        } catch (Exception e) {
+            model.put("message", e.getMessage());
+            return "error";
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (Exception e) {
+            }
+        }
     }
 
-    model.put("records", output);
-    return "record";
-  } catch (Exception e) {
-    model.put("message", e.getMessage());
-    return "error";
-  }
-}
 
+    @RequestMapping("/game")
+    String game(Map<String, Object> model) {
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM phrases ORDER BY RANDOM() LIMIT 1");
+            ArrayList<String> output = new ArrayList<String>();
+            while (rs.next()) {
+                output.add(rs.getString("phrase"));
+            }
 
-  @RequestMapping("/game")
-  String game(Map<String, Object> model) {
-    try (Connection connection = getConnection()) {
-      Statement stmt = connection.createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT * FROM phrases ORDER BY RANDOM() LIMIT 1");
-      ArrayList<String> output = new ArrayList<String>();
-      while (rs.next()) {
-        output.add(rs.getString("phrase"));
-      }
-
-      model.put("records", output);
-      return "game";
-    } catch (Exception e) {
-      model.put("message", e.getMessage());
-      return "error";
+            model.put("records", output);
+            connection.close();
+            return "game";
+        } catch (Exception e) {
+            model.put("message", e.getMessage());
+            return "error";
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (Exception e) {
+            }
+        }
     }
-  }
 
-  // temporary
-  @PostMapping("/audio")
-  String audio(String audio, String prompt, String user) {
-    app.AudioManager am = new app.AudioManager();
-    return am.analyze(audio, prompt, user);
-  }
+    // temporary
+//  @PostMapping("/audio")
+//  String audio(String audio, String prompt, String user) {
+//    app.AudioManager am = new app.AudioManager();
+//    return am.analyze(audio, prompt, user);
+//  }
 
-  @MessageMapping ("/audio")
-  public void stream(String base64Audio) throws Exception {
-    System.out.println("incoming message ...");
-    // write to file
+    @MessageMapping("/audio")
+    public String audio(String packet) throws Exception {
+        System.out.println("incoming message ...");
+
+        JSONObject obj = new JSONObject(packet);
+        String text = obj.getString("text");
+        String audio = obj.getString("audio");
+
+//    System.out.println(text + audio);
+
+        // write to file
 //    Base64.Decoder decoder = Base64.getDecoder();
-//    byte[] decodedByte = decoder.decode(base64Audio.split(",")[1]);
+//    byte[] decodedByte = decoder.decode(arr.split(",")[1]);
 //    FileOutputStream fos = new FileOutputStream("clip.wav");
 //    fos.write(decodedByte);
 //    fos.close();
-  }
-
-private static Connection getConnection() throws SQLException {
-    String dbUrl = System.getenv("JDBC_DATABASE_URL");
-    return DriverManager.getConnection(dbUrl);
-}
-
-  @Bean
-  public DataSource dataSource() throws SQLException {
-    if (dbUrl == null || dbUrl.isEmpty()) {
-      return new HikariDataSource();
-    } else {
-      HikariConfig config = new HikariConfig();
-      config.setJdbcUrl(dbUrl);
-      return new HikariDataSource(config);
+        AudioManager am = new AudioManager();
+        return am.analyze(audio, text, "default");
     }
-  }
+
+    private static Connection getConnection() throws SQLException {
+        String dbUrl = System.getenv("JDBC_DATABASE_URL");
+        return DriverManager.getConnection(dbUrl);
+    }
+
+    @Bean
+    public DataSource dataSource() throws SQLException {
+        if (dbUrl == null || dbUrl.isEmpty()) {
+            return new HikariDataSource();
+        } else {
+            HikariConfig config = new HikariConfig();
+            config.setJdbcUrl(dbUrl);
+            return new HikariDataSource(config);
+        }
+    }
 
 }

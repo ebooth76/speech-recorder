@@ -1,39 +1,61 @@
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-	<title>Sign up for an account.</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          type="text/css">
+    <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css">
 </head>
 
 <body>
-	<h1>Sign up</h1>
-
-	<form  action="#" th:action="@{/signup}" th:object="${user}"method=POST>
-		<p>
-			<label for="username">Enter a username (8-20 letters and/or numbers):</label><br />
-			<input type="text" id="username" name="username" pattern="[\da-zA-Z]{8,20}" required="true" th:object="${username}">
-		</p>
-		<!-- <p>
-			<label for="email">Enter your or your parent's email:</label><br />
-			<input type="text" id="email" name="email" required="true">
-		</p> -->
-		<p>
-			<label for="password">Enter a password (8-40 letters and/or numbers):</label><br />
-			<input type="password" id="password" name="password" pattern="[\da-zA-Z]{8,40}" required="true" th:object="${password}">
-		</p>
-		<p>
-			<label for="password_match">Enter your password again:</label><br />
-			<input type="password" id="password_match" name="password_match" pattern="[\da-zA-Z]{8,40}" required="true">
-		</p>
-		<p>
-			<label for="user_type">I am a:</label><br />
-			<select id="user_type" name="user_type" th:object="${userType}">
-				<option value="patient">Patient</option>
-				<option value="therapist">Therapist</option>
-				<option value="researcher">Researcher</option>
-			</select>
-		</p>
-		<input type="submit" value="Sign up">
-	</form>
+<div th:insert="fragments/nav :: navbar"></div>
+<div class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <form action="#" th:action="@{/signup}" th:object="${user}" method=POST>
+                    <div class="form-group"><label for="username">Username</label>
+                        <input class="form-control" aria-describedby="emailHelp" placeholder="Enter username"
+                               id="username" name="username" pattern="[\da-zA-Z]{8,20}" required="true"
+                               th:object="${username}">
+                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                            else.
+                        </small>
+                    </div>
+                    <div class="form-group"><label for="password">Password</label>
+                        <input type="password" class="form-control" placeholder="Password" id="password" name="password"
+                               pattern="[\da-zA-Z]{8,40}" required="true" th:object="${password}"></div>
+                    <div class="form-group"><label for="password_match">Retype password</label>
+                        <input type="password" class="form-control" placeholder="Password" id="password_match"
+                               name="password_match" pattern="[\da-zA-Z]{8,40}" required="true"></div>
+                    <div class="form-group">
+                        <label for="user_type">User Type</label>
+                        <div>
+                            <select id="user_type" class="custom-select">
+                                <option disabled="" selected="">Select user type</option>
+                                <option value="1">Patient</option>
+                                <option value="2">Therapist</option>
+                                <option value="3">Researcher</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 </body>
-
 </html>
