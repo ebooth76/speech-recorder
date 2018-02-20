@@ -32,6 +32,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Map;
@@ -70,7 +72,14 @@ public class LoginController {
                     +" user_type varchar(255))");
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM users WHERE username = ? AND password = ? LIMIT 1;");
             ps.setString(1, user.getUsername());
-            ps.setString(2, user.getPassword());
+            // Hash the password using MD5
+            String password = user.getPassword();
+            byte[] bytesOfMessage = password.getBytes("UTF-8");
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] md5Hash = md.digest(bytesOfMessage);
+            BigInteger bigInt = new BigInteger(1, md5Hash);
+            String hashtext = bigInt.toString(16);
+            ps.setString(2, hashtext);
             ResultSet rs = ps.executeQuery();
 
             if(!rs.isBeforeFirst()) {
