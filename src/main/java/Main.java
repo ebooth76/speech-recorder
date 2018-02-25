@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-package com.example;
 
 import app.User;
 import com.zaxxer.hikari.HikariConfig;
@@ -184,12 +183,6 @@ String record(Map<String, Object> model) {
     }
   }
 
-  // temporary
-  @PostMapping("/audio")
-  String audio(String audio) {
-    return "success";
-  }
-
   @MessageMapping ("/audio")
   public void stream(String base64Audio) throws Exception {
     System.out.println("incoming message ...");
@@ -201,13 +194,13 @@ String record(Map<String, Object> model) {
 //    fos.close();
   }
 
-/*
+
   @PostMapping("/audio")
-  String audio(String audio) {
-	  AudioManager am = new AudioManager();
-	  return am.analyze(audio);
+  String audio(String audio, String prompt, String user) {
+	  app.AudioManager am = new app.AudioManager();
+	  return am.analyze(audio, prompt, user);
   }
-*/
+
 private static Connection getConnection() throws SQLException {
     String dbUrl = System.getenv("JDBC_DATABASE_URL");
     return DriverManager.getConnection(dbUrl);
