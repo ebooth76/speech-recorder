@@ -1,5 +1,6 @@
 package app;
 
+import com.amazonaws.services.dynamodbv2.xspec.NULL;
 import voice.api.Voice;
 import voice.api.VoiceMetaData;
 
@@ -41,11 +42,10 @@ public class AudioManager{
 	public String analyze(String audio, String phrase, String user) {
 		AudioManager.prompt = phrase;
 		AudioManager.user = user;
-		if(saveAudio(audio) == 0){
-			addToDB(sendToSphinx(audioFile));
-			return "success";
-		}
-		return "failure";
+		saveAudio(audio);
+		VoiceMetaData vmd = sendToSphinx(audioFile);
+		addToDB(vmd);
+		return vmd.toString();
 	}
 	
 	private String addToDB(VoiceMetaData vmd) {
@@ -72,32 +72,14 @@ public class AudioManager{
 	
 	/**
 	 * Save audio to disk and insert database reference to it.
-	 * returns: 	0=success
-	 * 				1=failed to open output stream
-	 * 				2=failed to write to file
 	 */
-	private int saveAudio(String audio) {
+	private void saveAudio(String audio) {
 		Decoder decoder = Base64.getDecoder();
 		buffer = decoder.decode(audio.split(",")[1]);
 		//generate file name
 		String name = user + System.currentTimeMillis() + ".wav";
-		//save file name to Google Drive
-		GoogleDrive drive = new GoogleDrive();
-		String saveFile = name;
-		try {
-			FileOutputStream fileOut = new FileOutputStream(saveFile);
-			fileOut.write(buffer);
-			fileOut.close();
-			audioFile = new File(saveFile);
-			drive.saveFile(audioFile);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return 1;
-		}catch (IOException e) {
-			e.printStackTrace();
-			return 2;
-		}		
-		return 0;
+		aws.S3ServicesImpl s3 = new aws.S3ServicesImpl();
+		s3.uploadFile(name, "");
 	}
 	
 	/**
