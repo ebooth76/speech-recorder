@@ -30,16 +30,7 @@
 		<div id="buttons">
 			<button class="record">Record</button>
 			<button class="stop">Stop</button>
-			<button onclick="hearPronunciation()">Hear Pronunciation</button>
-			<script>
-			function hearPronunciation(){
-				var utterance = new SpeechSynthesisUtterance();
-    			utterance.text= "hello world";
-    			utterance.lang = 'en-US';
-    			speechSynthesis.speak(utterance);
-    		}
-			</script>
-
+			<button class="hear pronunciation">Hear Pronunciation</button>
 		</div>
 		<canvas class="visualizer" height="90px"></canvas>
 	</section>
@@ -47,7 +38,7 @@
 	<section class="sound-clips">
 	</section>
 
-	<!-- scripts for recording audio -->
+	<!-- script for recording audio -->
 	<script th:src="@{/js/record-app.js}"></script>
 
 </div>
