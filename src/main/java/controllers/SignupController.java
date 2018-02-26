@@ -73,7 +73,7 @@ public class SignupController {
             }
             else {
                 // If no username was returned create a new user
-                ps = connection.prepareStatement("INSERT INTO users (username, password, user_type) VALUES (?, ?, ?)");
+                ps = connection.prepareStatement("INSERT INTO users (username, password, user_type, email, firstname, lastname, gender, age) VALUES (?,?,?,?,?,?,?,?)");
                 ps.setString(1, user.getUsername());
                 // Hash the password using MD5
                 String password = user.getPassword();
@@ -83,7 +83,12 @@ public class SignupController {
                 BigInteger bigInt = new BigInteger(1, md5Hash);
                 String hashtext = bigInt.toString(16);
                 ps.setString(2, hashtext);
-                ps.setString(3, user.getUserType());
+                ps.setString(3, user.getUsertype());
+                ps.setString(4, user.getEmail());
+                ps.setString(5, user.getFirstname());
+                ps.setString(6, user.getLastname());
+                ps.setString(7, user.getGender());
+                ps.setInt(8, user.getAge());
                 ps.execute();
                 connection.close();
                 return "login";

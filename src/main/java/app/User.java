@@ -1,12 +1,16 @@
 package app;
 
-// User model to map to DB user table and committing change to ticket #42
 public class User {
 
     private long id;
     private String username;
     private String password;
-    private String userType;
+    private String usertype;
+    private String email;
+    private String firstname;
+    private String lastname;
+    private String gender;
+    private int age;
 
     public long getId() {
         return id;
@@ -32,12 +36,52 @@ public class User {
         this.password = password;
     }
 
-    public String getUserType(){
-        return userType;
+    public String getUsertype(){
+        return usertype;
     }
 
-    public void setUserType(){
-        this.userType = userType;
+    public void setUsertype(String usertype)
+    {
+        this.usertype = usertype;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email){
+        this.email = email;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname){
+        this.firstname = firstname;
+    }
+
+    public String getLastname(){
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getGender(){
+        return gender;
+    }
+
+    public void setGender(String gender){
+        this.gender = gender;
+    }
+
+    public int getAge(){
+        return age;
+    }
+
+    public void setAge(int age){
+        this.age = age;
+    }
 }
