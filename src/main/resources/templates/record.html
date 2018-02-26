@@ -30,7 +30,14 @@
 		<div id="buttons">
 			<button class="record">Record</button>
 			<button class="stop">Stop</button>
-			<button class="hear pronunciation">Hear Pronunciation</button>
+			<script>
+			function hearPronunciation(){
+				var utterance = new SpeechSynthesisUtterance();
+    			utterance.text= "hello world";
+    			utterance.lang = 'en-US';
+    			speechSynthesis.speak(utterance);
+    		}
+			</script>
 		</div>
 		<canvas class="visualizer" height="90px"></canvas>
 	</section>
