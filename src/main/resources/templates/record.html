@@ -1,47 +1,46 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>MicronoApp - Record</title>
-	<!--<link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">-->
+	<meta name="viewport" content="text/html; charset=utf-8">
+	<link rel="stylesheet" th:href="@{/css/theme.css}">
 	<script src="/webjars/jquery/jquery.min.js"></script>
 	<script src="/webjars/sockjs-client/sockjs.min.js"></script>
 	<script src="/webjars/stomp-websocket/stomp.min.js"></script>
-	<!-- the following code is largely taken from the
-		MDN's example here: https://github.com/mdn/web-dictaphone-->
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 	<link rel="script" th:href="@{/js/mediaDevices-getUserMedia-polyfill.js}"/>
 </head>
-
 <body>
+<!--Navigation bar-->
+<div th:insert="fragments/nav :: navbar"></div>
 
-<div class="wrapper">
-
-	<header>
-		<h1>Record audio</h1>
-	</header>
-
-	<h2> Please say the following into the microphone:</h2>
-	<ul th:each="record : ${records}">
-		<li id="record-text" th:text="${record}"/>
-	</ul>
-
-	<section class="main-controls">
-		<div id="buttons">
-			<button class="record">Record</button>
-			<button class="stop">Stop</button>
+<!--end of Navigation bar-->
+<div class="py-5 text-center opaque-overlay w-100 h-100" style="background-image: url(&quot;https://pingendo.github.io/templates/sections/assets/cover_event.jpg&quot;);">
+	<div class="container py-5">
+		<div class="row">
+			<div class="col-md-12 text-white">
+				<p class="lead mb-5">Please say the following into the microphone:</p>
+			</div>
 		</div>
-		<canvas class="visualizer" height="90px"></canvas>
-	</section>
-
-	<section class="sound-clips">
-	</section>
-
-	<!-- script for recording audio -->
-	<script th:src="@{/js/record-app.js}"></script>
-
+		<div class="row">
+			<div class="col-md-12 text-white">
+				<ul th:each="record : ${records}">
+					<li id="record-text" th:text="${record}"/>
+				</ul>
+			</div>
+		</div>
+		<section class="main-controls">
+			<div id="buttons">
+				<button class="record">Record</button>
+				<button class="stop">Stop</button>
+			</div>
+			<canvas class="visualizer" height="90px"></canvas>
+		</section>
+		<script th:src="@{/js/record-app.js}"></script>
+	</div>
 </div>
-
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 
 </html>
