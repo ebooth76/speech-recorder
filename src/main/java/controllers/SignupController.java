@@ -35,6 +35,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.security.*;
+import java.math.BigInteger;
 
 @Controller
 @SpringBootApplication
@@ -71,10 +73,22 @@ public class SignupController {
             }
             else {
                 // If no username was returned create a new user
-                ps = connection.prepareStatement("INSERT INTO users (username, password, user_type) VALUES (?, ?, ?)");
+                ps = connection.prepareStatement("INSERT INTO users (username, password, user_type, email, firstname, lastname, gender, age) VALUES (?,?,?,?,?,?,?,?)");
                 ps.setString(1, user.getUsername());
-                ps.setString(2, user.getPassword());
-                ps.setString(3, user.getUserType());
+                // Hash the password using MD5
+                String password = user.getPassword();
+                byte[] bytesOfMessage = password.getBytes("UTF-8");
+                MessageDigest md = MessageDigest.getInstance("MD5");
+                byte[] md5Hash = md.digest(bytesOfMessage);
+                BigInteger bigInt = new BigInteger(1, md5Hash);
+                String hashtext = bigInt.toString(16);
+                ps.setString(2, hashtext);
+                ps.setString(3, user.getUsertype());
+                ps.setString(4, user.getEmail());
+                ps.setString(5, user.getFirstname());
+                ps.setString(6, user.getLastname());
+                ps.setString(7, user.getGender());
+                ps.setInt(8, user.getAge());
                 ps.execute();
                 connection.close();
                 return "login";

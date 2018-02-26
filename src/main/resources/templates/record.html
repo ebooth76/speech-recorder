@@ -20,6 +20,31 @@
 			<div class="col-md-12 text-white">
 				<p class="lead mb-5">Please say the following into the microphone:</p>
 			</div>
+
+
+<div class="wrapper">
+
+	<header>
+		<h1>Record audio</h1>
+	</header>
+
+	<h2> Please say the following into the microphone:</h2>
+	<ul th:each="record : ${records}">
+		<li id="record-text" th:text="${record}"/>
+	</ul>
+
+	<section class="main-controls">
+		<div id="buttons">
+			<button class="record">Record</button>
+			<button class="stop">Stop</button>
+			<script>
+			function hearPronunciation(){
+				var utterance = new SpeechSynthesisUtterance();
+    			utterance.text= "hello world";
+    			utterance.lang = 'en-US';
+    			speechSynthesis.speak(utterance);
+    		}
+			</script>
 		</div>
 		<div class="row">
 			<div class="col-md-12 text-white">

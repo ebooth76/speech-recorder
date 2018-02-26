@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example;
+package  com.example;
 
 import app.AudioManager;
 import app.User;
@@ -39,6 +39,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Map;
+
+import app.DatabaseObject;
 
 //import api.VoiceMetaData;
 //import src.main.java.app.AudioManager;
@@ -82,10 +84,12 @@ public class Main {
 
 
     @GetMapping("/record")
-    String record(Map<String, Object> model) {
+    String record(Map<String, Object> model, HttpSession session) {
         Connection connection = null;
         try {
-            connection = getConnection();
+            if(session.getAttribute("Login") == null)
+                return "error";
+            connection = DatabaseObject.getConnection();
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM phrases ORDER BY RANDOM() LIMIT 1");
             ArrayList<String> output = new ArrayList<String>();
