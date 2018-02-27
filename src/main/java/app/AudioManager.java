@@ -10,10 +10,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Base64.Decoder;
 
@@ -30,6 +28,7 @@ public class AudioManager{
 	private static File audioFile;
 	private static AudioInputStream audioIn;
 	private static String prompt, user;
+	private static final String key = "micronophones123";
 	
 	/**
 	 * Method to accept audio and string 
@@ -95,11 +94,14 @@ public class AudioManager{
 		//save file name to Google Drive
 		GoogleDrive drive = new GoogleDrive();
 		try {
-			FileOutputStream fileOut = new FileOutputStream(name);
+			FileOutputStream fileOut = new FileOutputStream(name + "-raw");
 			fileOut.write(buffer);
 			fileOut.close();
-			audioFile = new File(name);
-			drive.saveFile(audioFile);
+			audioFile = new File(name + "-raw");
+			// encrypt file before saving to drive
+			File encryptedFile = new File(name);
+			AESEncrypt.encrypt(key, audioFile, encryptedFile);
+			drive.saveFile(encryptedFile);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			return 1;
