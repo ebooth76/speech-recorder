@@ -17,8 +17,12 @@
                 </ul>
                 <a class="btn navbar-btn ml-2 text-white btn-secondary" href="../record.html"><i
                         class="fa d-inline fa-lg fa-user-circle-o"></i> Record</a>
-                <a class="btn navbar-btn ml-2 text-white btn-secondary" href="../login.html"><i
-                        class="fa d-inline fa-lg fa-user-circle-o"></i> Sign in</a>
+                <div th:switch="${loggedIn}">
+                    <a th:case="'true'" class="btn navbar-btn ml-2 text-white btn-secondary" href="../logout.html"><i
+                            class="fa d-inline fa-lg fa-user-circle-o"></i> Logout</a>
+                    <a th:case="*" class="btn navbar-btn ml-2 text-white btn-secondary" href="../login.html"><i
+                            class="fa d-inline fa-lg fa-user-circle-o"></i> Sign in</a>
+                </div>
             </div>
         </div>
     </nav>

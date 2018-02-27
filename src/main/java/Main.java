@@ -26,10 +26,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.json.*;
 
 import javax.servlet.http.HttpSession;
@@ -47,6 +44,7 @@ import app.DatabaseObject;
 
 @Controller
 @SpringBootApplication
+@SessionAttributes("Login")
 public class Main {
 
     @Value("${spring.datasource.url}")
@@ -60,7 +58,11 @@ public class Main {
     }
 
     @RequestMapping("/")
-    String index() {
+    String index(Map<String, Object> model, HttpSession session) {
+        if (session.getAttribute("Login") == null)
+            model.put("loggedIn", "false");
+        else
+            model.put("loggedIn", "true");
         return "index";
     }
 
