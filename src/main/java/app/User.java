@@ -10,6 +10,7 @@ public class User {
     private String firstname;
     private String lastname;
     private String gender;
+    private String valid;
     private int age;
 
     public long getId() {
@@ -76,6 +77,10 @@ public class User {
     public void setGender(String gender){
         this.gender = gender;
     }
+
+    public String getValid(){ return valid; }
+
+    public void setValid(String valid){ this.valid = valid; }
 
     public int getAge(){
         return age;

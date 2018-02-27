@@ -17,14 +17,14 @@ import java.util.Arrays;
 public class AESEncrypt {
 
 	public static void encrypt(String key, File inputFile, File outputFile) {
-		doEncrypt(Cipher.ENCRYPT_MODE, key, inputFile, outputFile);
+		doCrypt(Cipher.ENCRYPT_MODE, key, inputFile, outputFile);
 	}
 
 	public static void decrypt(String key, File inputFile, File outputFile) {
-		doEncrypt(Cipher.DECRYPT_MODE, key, inputFile, outputFile);
+		doCrypt(Cipher.DECRYPT_MODE, key, inputFile, outputFile);
 	}
 
-	private static void doEncrypt(int cipherMode, String key, File inputFile, File outputFile) {
+	private static void doCrypt(int cipherMode, String key, File inputFile, File outputFile) {
 		try {
 
 			// generate the key and cipher
@@ -58,7 +58,7 @@ public class AESEncrypt {
 		}
 	}
 
-	public static void main(String[] args) {
+	public static void test() {
 
 		String key = "This is a secret"; // must be 16 bytes
 		File inputFile = new File("10001-90210-01803.wav");
@@ -66,8 +66,8 @@ public class AESEncrypt {
 		File decryptedFile = new File("10001-90210-01803-decrypt.wav");
 
 		try {
-			AESEncrypt.doEncrypt(Cipher.ENCRYPT_MODE, key, inputFile, encryptedFile);
-			AESEncrypt.doEncrypt(Cipher.DECRYPT_MODE, key, encryptedFile, decryptedFile);
+			AESEncrypt.doCrypt(Cipher.ENCRYPT_MODE, key, inputFile, encryptedFile);
+			AESEncrypt.doCrypt(Cipher.DECRYPT_MODE, key, encryptedFile, decryptedFile);
 			System.out.println("Encryption success");
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
