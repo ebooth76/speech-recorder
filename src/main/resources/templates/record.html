@@ -30,13 +30,27 @@
 		<div id="buttons">
 			<button class="record">Record</button>
 			<button class="stop">Stop</button>
-            <button onclick="hearPronunciation()">Hear Pronunciation</button>
+            <button onclick="pronunciation()">Pronunciation (English)</button>
 			<script>
-			function hearPronunciation(){
+			function pronunciation(){
 				var utterance = new SpeechSynthesisUtterance();
-    			utterance.text= "hello world";
+				var record = document.querySelector('.record');
+				var word = $("#record-text").text();
+				utterance.text=word;
     			utterance.lang = 'en-US';
     			speechSynthesis.speak(utterance);
+    		}
+			</script>
+			<button onclick="slowPronunciation()">Pronunciation (Slower)</button>
+			<script>
+			function slowPronunciation(){
+				var slowUt = new SpeechSynthesisUtterance();
+				var record = document.querySelector('.record');
+				var word2 = $("#record-text").text();
+				slowUt.text=word2;
+    			slowUt.lang = 'en-US';
+    			slowUt.rate = 0.3;
+    			speechSynthesis.speak(slowUt);
     		}
 			</script>
 		</div>
