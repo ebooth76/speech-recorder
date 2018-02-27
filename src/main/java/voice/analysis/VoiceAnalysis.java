@@ -3,6 +3,7 @@ package voice.analysis;
 import edu.cmu.sphinx.api.Configuration;
 import edu.cmu.sphinx.api.SpeechResult;
 import edu.cmu.sphinx.api.StreamSpeechRecognizer;
+import edu.cmu.sphinx.linguist.dictionary.Pronunciation;
 import edu.cmu.sphinx.util.NISTAlign;
 import voice.api.VoiceMetaData;
 import edu.cmu.sphinx.result.Result;
@@ -15,8 +16,14 @@ import java.io.InputStream;
 import com.sun.org.apache.xml.internal.security.utils.SignerOutputStream;
 public class VoiceAnalysis{
 
+	float totalInsertions = 0;
+	float totalDeletions = 0;
+	float totalReplacements = 0;
+	float totalPhonemeHyp;
+	float totalPhonemeRef;
+
 	public VoiceMetaData analyze(File wavFile, String refText, VoiceMetaData vData) throws IOException{
-		
+
 		NISTAlign nistAlign = new NISTAlign(true, true);
 		
 		
@@ -33,7 +40,10 @@ public class VoiceAnalysis{
 		SpeechResult result = recognizer.getResult();
 		Result temp = result.getResult();
 		if(result != null) { 
-			System.out.format("Phoneme Hypothesis: %s\n", temp.getBestPronunciationResult());
+//			System.out.format("Phoneme Hypothesis: %s\n", temp.getBestPronunciationResult());
+			System.out.println( "Hypothesis Phonemes: " + getPhonemeHypothesis(temp.getBestPronunciationResult()));
+			vData.setPhonemicTranslationActual(getPhonemeHypothesis(temp.getBestPronunciationResult()));
+			System.out.println("Word Hypothesis: " + result.getHypothesis());
 		}
 		else {
 			System.out.println("Recognizer did not hear anything.");
@@ -44,22 +54,91 @@ public class VoiceAnalysis{
 //		}
 		
 		nistAlign.align(refText, result.getHypothesis());
-		float wordCount = nistAlign.getTotalWords();
-		vData.setDeletionErrorRate(nistAlign.getTotalDeletions() / wordCount); // # of words left out (D) / # of words
-		vData.setInsertionErrorRate(nistAlign.getTotalInsertions() / wordCount); // # of extra words added (I) / # of words
+//		nistAlign.align(refText, temp.getBestPronunciationResult());
+//		float wordCount = nistAlign.getTotalWords();
+//		vData.setDeletionErrorRate(nistAlign.getTotalDeletions() / wordCount); // # of words left out (D) / # of words
+//		vData.setInsertionErrorRate(nistAlign.getTotalInsertions() / wordCount); // # of extra words added (I) / # of words
 		
 		//I believe this is the correct method call for replacements but not sure 
-		vData.setReplacementErrorRate(nistAlign.getTotalSubstitutions() / wordCount); // # of words said wrong (S) / # of words
+//		vData.setReplacementErrorRate(nistAlign.getTotalSubstitutions() / wordCount); // # of words said wrong (S) / # of words
 		
 		//not sure if we want total word error rate for overall error rate
 		vData.setOverallErrorRate(nistAlign.getTotalWordErrorRate()); // (S + D + I) / # of words
-		
+
+		vData.setDeletionErrorRate(totalDeletions / totalPhonemeRef);
+		vData.setInsertionErrorRate(totalInsertions / totalPhonemeRef);
+		vData.setReplacementErrorRate(totalReplacements / totalPhonemeRef);
+		vData.setOverallErrorRate((totalDeletions + totalInsertions + totalReplacements) / totalPhonemeRef);
+
+//		Pronunciation refPronunciation = new Pronunciation();
+
 		recognizer.stopRecognition();
 		return vData;
 
 	}
 
-	
+
+	/**
+	 * given a string from getBestPronunciation() remove
+	 * the words from the output, leaving only the phoneemes.
+	 * @param s
+	 * @return formatted phonemes
+	 */
+	public String getPhonemeHypothesis(String s) {
+
+		String ref[] = {"[W,AH,N]", "[Z,IH,R,OW]", "[Z,IH,R,OW]", "[Z,IH,R,OW]", "[W,AH,N]"};
+
+		int i = 0;
+
+		String ret = "";
+		String ary[] = s.split(" ");
+		for (String temp: ary) {
+//			System.out.println(temp);
+			String ary2[] = temp.split("\\[");
+//			System.out.println(ary2.length);
+			// call phonemeAllignment!!!
+			ret +=  "[" + ary2[1];
+			phonemeAlignment(ary2[1], ref[i]);
+			i++;
+		}
+		return ret;
+	}
+
+	/**
+	 * Phoneme Alignment for one word.
+	 * @param hyp
+	 * @param ref
+	 */
+	public void phonemeAlignment(String hyp, String ref) {
+		// assuming ref is a word's phoneme string structured: [X,XX,X,XX,...,X]
+		ref = ref.substring(1, ref.length() - 1);
+
+		// assuming hyp is a word's phoneme string structured: X,XX,X,XX,...,X]
+		hyp = hyp.substring(0, hyp.length() - 1);
+
+		String refArr[] = ref.split(",");
+		String hypArr[] = hyp.split(",");
+
+		totalPhonemeHyp = hypArr.length;
+		totalPhonemeRef = refArr.length;
+
+		if (totalPhonemeHyp > totalPhonemeRef) {
+			totalInsertions = totalPhonemeHyp - totalPhonemeRef;
+		} else if (totalPhonemeHyp < totalPhonemeRef) {
+			totalDeletions = totalPhonemeRef - totalPhonemeHyp;
+		} else {
+			for (int i = 0; i < totalPhonemeHyp; i++) {
+				if (!hypArr[i].equals(refArr[i])) {
+					totalDeletions++;
+				}
+			}
+		}
+
+		String s = ref + "\n\n\nDeletions: " + totalDeletions + "\nInsertions: "
+						+ totalInsertions + "\nReplacements: " + totalDeletions;
+//		System.out.println(s);
+	}
+
 	/**
 	 * The scoring for right now is only in here to show that we can get a scored. 
 	 * Once we can get a better evaluation of the word/phrase then we can change the scoring
