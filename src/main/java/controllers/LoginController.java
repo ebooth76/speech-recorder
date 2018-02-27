@@ -51,10 +51,24 @@ public class LoginController {
     @Value("${spring.datasource.url}")
     private String dbUrl;
 
+    @RequestMapping("/logout")
+    public String logout(HttpSession session) {
+        if(session.getAttribute("Login") == null)
+            return "redirect:/";
+        else {
+            session.setAttribute("Login", "watch ur back");
+            return "redirect:/";
+        }
+    }
+
     @GetMapping("/login")
-    public String loginForm(Model model) {
-        model.addAttribute("user", new User());
-        return "login";
+    public String loginForm(Model model, HttpSession session) {
+        if(session.getAttribute("Login") != null)
+            return "redirect:/";
+        else {
+            model.addAttribute("user", new User());
+            return "login";
+        }
     }
 
     // login endpoint and committing change

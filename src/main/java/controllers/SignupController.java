@@ -49,7 +49,7 @@ public class SignupController {
     @GetMapping("/signup")
     String signupForm(HttpSession session) {
         if(session.getAttribute("Login") != null)
-            return "error";
+            return "redirect:/";
         else {
             return "signup";
         }
