@@ -85,6 +85,37 @@ public class Main {
 //  }
 
 
+
+    @GetMapping("/confirm")
+    String confirm(@RequestParam("id") String id) {
+        Connection connection = null;
+        try {
+            connection = DatabaseObject.getConnection();
+            Statement stmt = connection.createStatement();
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM users WHERE valid = ? LIMIT 1;");
+            ps.setString(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                String username = rs.getString("username");
+                ps = connection.prepareStatement("UPDATE users SET valid = 'true' WHERE username = ?;");
+                ps.setString(1, username);
+                ps.execute();
+            } else {
+                return "error";
+            }
+            return "redirect:/login";
+        } catch (Exception e) {
+            return "error";
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (Exception e) {
+            }
+        }
+    }
+
     @GetMapping("/record")
     String record(Map<String, Object> model, HttpSession session) {
         Connection connection = null;

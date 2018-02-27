@@ -74,6 +74,13 @@
 	    <artifactId>google-oauth-client-jetty</artifactId>
 	    <version>1.22.0</version>
 	</dependency>-->
+
+    <!-- Java Mail Dependencies -->
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>mail</artifactId>
+      <version>1.4.7</version>
+    </dependency>
  
     <!-- Spring and Spring Boot dependencies -->
     <dependency>

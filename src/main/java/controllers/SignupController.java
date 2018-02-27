@@ -18,6 +18,7 @@
 package com.example;
 
 import app.DatabaseObject;
+import app.Mail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -36,6 +37,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.security.*;
+import java.util.UUID;
 import java.math.BigInteger;
 
 @Controller
@@ -73,7 +75,7 @@ public class SignupController {
             }
             else {
                 // If no username was returned create a new user
-                ps = connection.prepareStatement("INSERT INTO users (username, password, user_type, email, firstname, lastname, gender, age) VALUES (?,?,?,?,?,?,?,?)");
+                ps = connection.prepareStatement("INSERT INTO users (username, password, user_type, email, firstname, lastname, gender, age, valid) VALUES (?,?,?,?,?,?,?,?,?)");
                 ps.setString(1, user.getUsername());
                 // Hash the password using MD5
                 String password = user.getPassword();
@@ -89,6 +91,10 @@ public class SignupController {
                 ps.setString(6, user.getLastname());
                 ps.setString(7, user.getGender());
                 ps.setInt(8, user.getAge());
+                // Send an email to the specified address for verification
+                String emailKey = UUID.randomUUID().toString();
+                Mail.SendEmail(user.getEmail(), emailKey);
+                ps.setString(9, emailKey);
                 ps.execute();
                 connection.close();
                 return "login";
