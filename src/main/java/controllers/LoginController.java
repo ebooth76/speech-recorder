@@ -40,6 +40,7 @@ import java.util.Map;
 
 import app.User;
 import app.DatabaseObject;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 //import src.main.java.app.AudioManager;
 
@@ -52,9 +53,13 @@ public class LoginController {
     private String dbUrl;
 
     @GetMapping("/login")
-    public String loginForm(Model model) {
-        model.addAttribute("user", new User());
-        return "login";
+    public String loginForm(Model model, HttpSession session) {
+        if(session.getAttribute("Login") != null)
+            return "redirect:/";
+        else {
+            model.addAttribute("user", new User());
+            return "login";
+        }
     }
 
     // login endpoint and committing change
@@ -89,7 +94,7 @@ public class LoginController {
             else {
                 session.setAttribute("Login", user.getUsername());
                 connection.close();
-                return "record";
+                return "redirect:/record";
             }
         } catch (Exception e) {
             return "error";
