@@ -9,6 +9,7 @@ public class VoiceMetaData {
 	private float insertionErrorRate;
 	private float deletionErrorRate;
 	private float replacementErrorRate;
+	private int score;
 	private String phonemicTranslationActual;
 	private String phonemicTranslationDesired;
 	private String date;
@@ -36,7 +37,7 @@ public class VoiceMetaData {
 	 * @param phonemicTranslationDesired the best phonemic translation for the text 
 	 */
 	public VoiceMetaData(float overallErrorRate, float insertionErrorRate, float deletionErrorRate, float replacementErrorRate,
-			String phonemicTranslationActual, String phonemicTranslationDesired, String originalText) {
+			String phonemicTranslationActual, String phonemicTranslationDesired, String originalText, int score) {
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 		this.date = df.format(new Date());
 		df = new SimpleDateFormat("HH:mm:ss");
@@ -48,6 +49,7 @@ public class VoiceMetaData {
 		this.phonemicTranslationActual = phonemicTranslationActual;
 		this.phonemicTranslationDesired = phonemicTranslationDesired;
 		this.originalText = originalText;
+		this.score = score;
 		
 	}
 	
@@ -146,7 +148,11 @@ public class VoiceMetaData {
 	public void setPhonemicTranslationDesired(String phonemicTranslationDesired) {
 		this.phonemicTranslationDesired = phonemicTranslationDesired;
 	}
-	
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
 	/**
 	 * Gets the date that this VoiceMetaData object was created.
 	 * In the format "MM/dd/yyyy"
@@ -164,8 +170,13 @@ public class VoiceMetaData {
 	public String getTime() {
 		return time;
 	}
-	
-	
+
+	/**
+	 * Gets the score for the voice data.
+	 * @return int score
+	 */
+	public int getScore() {return score;}
+
 	/**
 	 * Gets the original text that was passed into CMUSphinx
 	 * @return the original text

@@ -8,12 +8,10 @@ public class Voice implements IVoice{
 
 	@Override
 	public VoiceMetaData analyze(File wavFile, String originalInput) {
-		// TODO Auto-generated method stub
 		Preprocessing preProc = new Preprocessing(wavFile, originalInput);
 		try {
 			return preProc.runVoiceAnalysis();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

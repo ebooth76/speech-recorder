@@ -4,7 +4,7 @@ package voice.analysis;
 import java.io.File;
 import java.io.IOException;
 
-import voice.analysis.VoiceAnalysis;
+//import voice.analysis.VoiceAnalysis;
 import voice.api.VoiceMetaData;
 
 public class Test {
@@ -13,7 +13,7 @@ public class Test {
 		VoiceAnalysis va = new VoiceAnalysis();
 		System.out.println("Starting Test...");
 		VoiceMetaData vData = new VoiceMetaData();
-		String phrase = "zero one zero zero zero one one one";
+		String phrase = "one zero zero zero one";
 		vData = va.analyze(file, phrase, vData);
 		va.getVoiceScore(vData);
 	}

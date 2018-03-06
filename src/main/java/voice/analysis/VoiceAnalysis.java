@@ -3,7 +3,8 @@ package voice.analysis;
 import edu.cmu.sphinx.api.Configuration;
 import edu.cmu.sphinx.api.SpeechResult;
 import edu.cmu.sphinx.api.StreamSpeechRecognizer;
-import edu.cmu.sphinx.util.NISTAlign;
+//import edu.cmu.sphinx.linguist.dictionary.Pronunciation;
+//import edu.cmu.sphinx.util.NISTAlign;
 import voice.api.VoiceMetaData;
 import edu.cmu.sphinx.result.Result;
 
@@ -12,17 +13,34 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.sun.org.apache.xml.internal.security.utils.SignerOutputStream;
+//import com.sun.org.apache.xml.internal.security.utils.SignerOutputStream;
 public class VoiceAnalysis{
 
-	public VoiceMetaData analyze(File wavFile, String refText, VoiceMetaData vData) throws IOException{
+	private float totalInsertions = 0;
+	private float totalDeletions = 0;
+	private float totalReplacements = 0;
+
+	private float totalPhonemeRef;
+
+	// Hardcoded Reference Phoneme Text (for Testing)
+	private String ref[] = {"[W,AH,N]", "[Z,IH,R,OW]", "[Z,IH,R,OW]", "[Z,IH,R,OW]", "[W,AH,N]"};
+
+	public VoiceMetaData analyze(File wavFile, String refText, VoiceMetaData vData) throws IOException {
+
+		StringBuilder tempS = new StringBuilder();
+		for (String aRef : ref) tempS.append(aRef);
+		String phonemeRef = tempS.toString();
+
+		// Not sure we need NISTAlign since we have to do phoneme alignment ourselves.
+		// Will only need if we plan to do word alignment as well as phonemic alignment (which is why this is all commented out)
+
+//		NISTAlign nistAlign = new NISTAlign(true, true);
 		
-		NISTAlign nistAlign = new NISTAlign(true, true);
-		
-		
+		vData.setOriginalText(refText);
+
 		Configuration configuration = new Configuration();
 
-		configuration.setAcousticModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us");//TODO: fix file handles
+		configuration.setAcousticModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us"); //TODO: fix file handles
 		configuration.setDictionaryPath("resource:/edu/cmu/sphinx/models/en-us/cmudict-en-us.dict");
 		configuration.setLanguageModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us.lm.bin");
 
@@ -31,35 +49,102 @@ public class VoiceAnalysis{
 
 		recognizer.startRecognition(stream);
 		SpeechResult result = recognizer.getResult();
-		Result temp = result.getResult();
-		if(result != null) { 
-			System.out.format("Phoneme Hypothesis: %s\n", temp.getBestPronunciationResult());
+		if (result != null) {
+			Result temp = result.getResult();
+//			System.out.format("Phoneme Hypothesis: %s\n", temp.getBestPronunciationResult());	// prints words and phonemes
+			System.out.println( "\nHypothesis Phonemes: " + getPhonemeHypothesis(temp.getBestPronunciationResult(), ref));	// prints just phonemes
+			vData.setPhonemicTranslationDesired(phonemeRef);
+
+			System.out.println("DESIRED PHONEMIC ALIGNMENT: " + vData.getPhonemicTranslationDesired());
+
+			vData.setPhonemicTranslationActual(getPhonemeHypothesis(temp.getBestPronunciationResult(), ref)); // set phonemic translation for meta data
+			System.out.println("Word Hypothesis: " + result.getHypothesis()); // prints what was said
+			System.out.println("Desired: " + vData.getOriginalText() + "\n");	// prints what should have been said
 		}
 		else {
 			System.out.println("Recognizer did not hear anything.");
 		}
+
 //		}
 //		while ((result = recognizer.getResult()) != null) {
 //			System.out.format("Hypothesis: %s\n", result.getHypothesis());
 //		}
-		
-		nistAlign.align(refText, result.getHypothesis());
-		float wordCount = nistAlign.getTotalWords();
-		vData.setDeletionErrorRate(nistAlign.getTotalDeletions() / wordCount); // # of words left out (D) / # of words
-		vData.setInsertionErrorRate(nistAlign.getTotalInsertions() / wordCount); // # of extra words added (I) / # of words
-		
-		//I believe this is the correct method call for replacements but not sure 
-		vData.setReplacementErrorRate(nistAlign.getTotalSubstitutions() / wordCount); // # of words said wrong (S) / # of words
-		
-		//not sure if we want total word error rate for overall error rate
-		vData.setOverallErrorRate(nistAlign.getTotalWordErrorRate()); // (S + D + I) / # of words
-		
+
+		// uses word(s) for analysis
+//		nistAlign.align(refText, result.getHypothesis());
+
+//		nistAlign.align(refText, temp.getBestPronunciationResult()); // uses the string formatted at 'word[X,XX,X]' where the 'X' are phonemes
+//		float wordCount = nistAlign.getTotalWords();
+
+		// Word Alignment (Analysis)
+//		vData.setDeletionErrorRate(nistAlign.getTotalDeletions() / wordCount); // # of words left out (D) / # of words
+//		vData.setInsertionErrorRate(nistAlign.getTotalInsertions() / wordCount); // # of extra words added (I) / # of words
+//		vData.setReplacementErrorRate(nistAlign.getTotalSubstitutions() / wordCount); // # of words said wrong (S) / # of words
+//		vData.setOverallErrorRate(nistAlign.getTotalWordErrorRate()); // (S + D + I) / # of words
+
+		vData.setDeletionErrorRate(totalDeletions / totalPhonemeRef); // # of phonemes left out for a word (D) / # of words
+		vData.setInsertionErrorRate(totalInsertions / totalPhonemeRef); // # of extra phonemes in a word added (I) / # of words
+		vData.setReplacementErrorRate(totalReplacements / totalPhonemeRef); // # of phonemes in a word said wrong (S) / # of words
+		vData.setOverallErrorRate((totalDeletions + totalInsertions + totalReplacements) / totalPhonemeRef);
+
+//		Pronunciation refPronunciation = new Pronunciation();
+
 		recognizer.stopRecognition();
 		return vData;
-
 	}
 
-	
+
+	/**
+	 * given a string from getBestPronunciation() remove
+	 * the words from the output, leaving only the phonemes.
+	 * @param s getBestPronunciation()
+	 * @return formatted phonemes
+	 */
+	private String getPhonemeHypothesis(String s, String ref[]) {
+		int i = 0;
+		StringBuilder ret = new StringBuilder();
+		String ary[] = s.split(" ");
+		for (String temp: ary) {
+			String ary2[] = temp.split("\\[");
+			ret.append("[").append(ary2[1]);
+			phonemeAlignment(ary2[1], ref[i]);
+			i++;
+		}
+		return ret.toString();
+	}
+
+	/**
+	 * Phoneme Alignment for one word.
+	 * @param hyp phoneme(s) of one word for what was said
+	 * @param ref phoneme(s) of one word for what should have been said
+	 */
+	private void phonemeAlignment(String hyp, String ref) {
+		float totalPhonemeHyp;
+		// assuming ref is a word's phoneme string structured: [X,XX,X,XX,...,X]
+		ref = ref.substring(1, ref.length() - 1);
+
+		// assuming hyp is a word's phoneme string structured: X,XX,X,XX,...,X]
+		hyp = hyp.substring(0, hyp.length() - 1);
+
+		String refArr[] = ref.split(",");
+		String hypArr[] = hyp.split(",");
+
+		totalPhonemeHyp = hypArr.length;
+		totalPhonemeRef = refArr.length;
+
+		if (totalPhonemeHyp > totalPhonemeRef) {
+			totalInsertions = totalPhonemeHyp - totalPhonemeRef;
+		} else if (totalPhonemeHyp < totalPhonemeRef) {
+			totalDeletions = totalPhonemeRef - totalPhonemeHyp;
+		} else {
+			for (int i = 0; i < totalPhonemeHyp; i++) {
+				if (!hypArr[i].equals(refArr[i])) {
+					totalReplacements++;
+				}
+			}
+		}
+	}
+
 	/**
 	 * The scoring for right now is only in here to show that we can get a scored. 
 	 * Once we can get a better evaluation of the word/phrase then we can change the scoring
@@ -68,11 +153,9 @@ public class VoiceAnalysis{
 	 * The the score is based on the error rates of different ways to mess up the word/phrase, 
 	 * and then depending on that rate I have added a factor to generate a score.
 	 * 
-	 * @param vData
-	 * @return score
+	 * @param vData Voice Meta Data
 	 */
-	public int getVoiceScore(VoiceMetaData vData) {
-		
+	public void getVoiceScore(VoiceMetaData vData) {
 		int score = 100; // 100% percent
 		
 		float dErrRate = vData.getDeletionErrorRate();
@@ -94,15 +177,12 @@ public class VoiceAnalysis{
 		double iScore = iErrRate * iErrFactor;
 		double rScore = rErrRate * rErrFactor;
 		double oScore = oErrRate * oErrFactor;
-		
 		double reduction = (dScore + iScore + rScore + oScore) * 100.00;
-		
+
 		score -= reduction;
-		
 		System.out.println("Reduction Value: " + reduction);
-		
-		System.out.println("Score: " + score);
-		
-		return score;
+
+		vData.setScore(score);
+		System.out.println("Score: " + vData.getScore());
 	}
 }
