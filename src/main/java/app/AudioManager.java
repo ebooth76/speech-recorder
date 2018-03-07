@@ -4,10 +4,7 @@ import voice.api.Voice;
 import voice.api.VoiceMetaData;
 
 import javax.sound.sampled.AudioInputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -91,24 +88,17 @@ public class AudioManager{
 		buffer = decoder.decode(audio.split(",")[1]);
 		//generate file name
 		String name = user + System.currentTimeMillis() + ".wav";
-		//save file name to Google Drive
-		GoogleDrive drive = new GoogleDrive();
+		File file = new File("/home/ec2-user/audio" + name);
+		OutputStream out = null;
 		try {
-			FileOutputStream fileOut = new FileOutputStream(name + "-raw");
-			fileOut.write(buffer);
-			fileOut.close();
-			audioFile = new File(name + "-raw");
-			// encrypt file before saving to drive
-			File encryptedFile = new File(name);
-			AESEncrypt.encrypt(key, audioFile, encryptedFile);
-			drive.saveFile(encryptedFile);
+			out = new FileOutputStream(file);
+			out.write(buffer);
+			out.close();
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return 1;
-		}catch (IOException e) {
-			e.printStackTrace();
 			return 2;
-		}		
+		}catch (IOException e) {
+			return 1;
+		}
 		return 0;
 	}
 	
