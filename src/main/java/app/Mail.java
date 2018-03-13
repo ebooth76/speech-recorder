@@ -15,7 +15,7 @@ import javax.mail.internet.MimeMessage;
 
 public class Mail {
     final static String username = "micronophones@gmail.com";
-    final static String password = "Micronophones123";
+    final static String password = "Micronophones321!";
 
     public static void SendEmail(String recipientEmail, String id) throws AddressException, MessagingException {
         Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());

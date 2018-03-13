@@ -18,6 +18,7 @@ package  com.example;
 
 import app.AudioManager;
 import app.User;
+import app.Util;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;
@@ -59,10 +60,7 @@ public class Main {
 
     @RequestMapping("/")
     String index(Map<String, Object> model, HttpSession session) {
-        if (session.getAttribute("Login") == null)
-            model.put("loggedIn", "false");
-        else
-            model.put("loggedIn", "true");
+        Util.checkLoggedIn(model, session);
         return "index";
     }
 
@@ -119,6 +117,7 @@ public class Main {
     @GetMapping("/record")
     String record(Map<String, Object> model, HttpSession session) {
         Connection connection = null;
+        Util.checkLoggedIn(model, session);
         try {
             if(session.getAttribute("Login") == null)
                 return "error";
