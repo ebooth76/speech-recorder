@@ -48,32 +48,13 @@
   </repositories>
 
   <dependencies>
-  	<!-- Google Drive Dependencies -->
-  	<dependency>
-     <groupId>com.google.api-client</groupId>
-     <artifactId>google-api-client</artifactId>
-     <version>1.23.0</version>
-   	</dependency>
-   	<dependency>
-      <groupId>com.google.apis</groupId>
-      <artifactId>google-api-services-drive</artifactId>
-      <version>v3-rev92-1.23.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.google.apis</groupId>
-      <artifactId>google-api-services-oauth2</artifactId>
-      <version>v1-rev136-1.23.0</version>
-    </dependency>
-    <dependency>
-	  <groupId>com.google.oauth-client</groupId>
-	  <artifactId>google-oauth-client-java6</artifactId>
-	  <version>1.23.0</version>
-	</dependency>  <!--  
-	 <dependency>
-	    <groupId>com.google.oauth-client</groupId>
-	    <artifactId>google-oauth-client-jetty</artifactId>
-	    <version>1.22.0</version>
-	</dependency>-->
+  	<!-- SSH Dependencies -->
+      <dependency>
+          <groupId>com.jcraft</groupId>
+          <artifactId>jsch</artifactId>
+          <version>0.1.54</version>
+      </dependency>
+
 
     <!-- Java Mail Dependencies -->
     <dependency>
@@ -215,6 +196,14 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+            <source>1.7</source>
+            <target>1.7</target>
+        </configuration>
+      </plugin>
+
     </plugins>
   </build>
 
