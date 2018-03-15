@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="text/html; charset=utf-8">
+    <link rel="stylesheet" th:href="@{/css/theme.css}">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <link rel="script" th:href="@{/js/mediaDevices-getUserMedia-polyfill.js}"/>
+</head>
+<body>
+<!--Navigation bar-->
+<div th:insert="fragments/nav :: navbar"></div>
+
+<!--end of Navigation bar-->
+
+<div class="py-5">
+    <div class="container">
+        <div class="row text-dark">
+            <div class="col-md-6">
+                <div class="card text-white p-5 bg-primary">
+                    <div class="card-body">
+                        <h1 class="mb-4">Create Script Form</h1>
+                        <form action="#" th:action="@{/login}" th:object="${user}" method=POST>
+                            <div class="form-group">
+                                <label>Script Name</label>
+                                <input class="form-control" placeholder="Script Name" required="true" >
+                                <label>Script (Separated by newlines)</label>
+                                <textarea class="form-control" rows="5" id="script_body"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-secondary">Create Script</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+
+</html>
