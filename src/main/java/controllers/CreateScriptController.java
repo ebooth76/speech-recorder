@@ -17,28 +17,19 @@
 
 package com.example;
 
+import app.User;
 import app.DatabaseObject;
-import app.Mail;
-import org.springframework.beans.factory.annotation.Autowired;
+import app.Phrase;
+import app.Util;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
-import app.User;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.security.*;
-import java.util.UUID;
-import java.math.BigInteger;
+import java.sql.*;
+import java.util.Map;
 
 @Controller
 @SpringBootApplication
@@ -47,9 +38,32 @@ public class CreateScriptController {
     @Value("${spring.datasource.url}")
     private String dbUrl;
 
-    // signup endpoint and committing change
+    // Return the "create_script.html" to the user
     @GetMapping("/create-script")
-    String signupForm(HttpSession session) {
+    String createScriptForm(Map<String, Object> model, HttpSession session) {
+        Util.checkLoggedIn(model, session);
+        return "create-script";
+    }
+
+    // Allow the user to post their own script to the db
+    @PostMapping("/create-script")
+    String postScript(@ModelAttribute Phrase phrase, Map<String, Object> model, HttpSession session) {
+        Util.checkLoggedIn(model, session);
+        try {
+            Connection connection = DatabaseObject.getConnection();
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO phrases (phrase, phrase_name, user_id) VALUES (?,?,?)");
+            ps.setString(1, phrase.getPhrase());
+            ps.setString(2, phrase.getPhrasename());
+
+            // Get the ID of the user who is logged in and put them in the database
+
+            ps.setLong(3, ((User) session.getAttribute("User")).getId());
+
+            // Run the statement against the database
+            ps.execute();
+        } catch (Exception e) {
+            return "error";
+        }
         return "create-script";
     }
 

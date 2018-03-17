@@ -19,12 +19,12 @@
                 <div class="card text-white p-5 bg-primary">
                     <div class="card-body">
                         <h1 class="mb-4">Create Script Form</h1>
-                        <form action="#" th:action="@{/login}" th:object="${user}" method=POST>
+                        <form action="#" th:action="@{/create-script}" th:object="${phrase}" method=POST>
                             <div class="form-group">
-                                <label>Script Name</label>
-                                <input class="form-control" placeholder="Script Name" required="true" >
-                                <label>Script (Separated by newlines)</label>
-                                <textarea class="form-control" rows="5" id="script_body"></textarea>
+                                <div><label>Script Name</label>
+                                <input class="form-control" placeholder="Script Name" id="phrasename" name="phrasename" required="true" th:object="${phrasename}"> </div>
+                                <div><label>Script (Separated by newlines)</label>
+                                <input class="form-control" placeholder="Script Content" id="phrase" name="phrase" required="true" th:object="${phrase}"> </div>
                             </div>
                             <button type="submit" class="btn btn-secondary">Create Script</button>
                         </form>
