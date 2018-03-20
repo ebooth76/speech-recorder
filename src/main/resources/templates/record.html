@@ -35,24 +35,32 @@
 				<button onclick="pronunciation()">Pronunciation (English)</button>
 				<script>
 				function pronunciation(){
-					var utterance = new SpeechSynthesisUtterance();
-					var record = document.querySelector('.record');
-					var word = $("#record-text").text();
-					utterance.text=word;
-					utterance.lang = 'en-US';
-					speechSynthesis.speak(utterance);
+					if(typeof speechSynthesis === 'undefined') {
+    					alert("Current browser does not support text-to-speech functionality.");
+    				} else {
+						var utterance = new SpeechSynthesisUtterance();
+						var record = document.querySelector('.record');
+						var word = $("#record-text").text();
+						utterance.text=word;
+						utterance.lang = 'en-US';
+						speechSynthesis.speak(utterance);
+					}
 				}
 				</script>
 				<button onclick="slowPronunciation()">Pronunciation (Slower)</button>
 				<script>
 				function slowPronunciation(){
-					var slowUt = new SpeechSynthesisUtterance();
-					var record = document.querySelector('.record');
-					var word2 = $("#record-text").text();
-					slowUt.text=word2;
-					slowUt.lang = 'en-US';
-					slowUt.rate = 0.3;
-					speechSynthesis.speak(slowUt);
+					if(typeof speechSynthesis === 'undefined') {
+    					alert("Current browser does not support text-to-speech functionality.");
+    				} else {
+						var slowUt = new SpeechSynthesisUtterance();
+						var record = document.querySelector('.record');
+						var word2 = $("#record-text").text();
+						slowUt.text=word2;
+						slowUt.lang = 'en-US';
+						slowUt.rate = 0.3;
+						speechSynthesis.speak(slowUt);
+					}
 				}
 				</script>
 			</div>
