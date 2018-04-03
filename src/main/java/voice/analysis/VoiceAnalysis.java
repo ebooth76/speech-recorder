@@ -3,8 +3,7 @@ package voice.analysis;
 import edu.cmu.sphinx.api.Configuration;
 import edu.cmu.sphinx.api.SpeechResult;
 import edu.cmu.sphinx.api.StreamSpeechRecognizer;
-//import edu.cmu.sphinx.linguist.dictionary.Pronunciation;
-//import edu.cmu.sphinx.util.NISTAlign;
+import edu.cmu.sphinx.linguist.g2p.G2PConverter;
 import voice.api.VoiceMetaData;
 import edu.cmu.sphinx.result.Result;
 
@@ -13,28 +12,24 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-//import com.sun.org.apache.xml.internal.security.utils.SignerOutputStream;
 public class VoiceAnalysis{
 
 	private float totalInsertions = 0;
 	private float totalDeletions = 0;
 	private float totalReplacements = 0;
-
 	private float totalPhonemeRef;
-
-	// Hardcoded Reference Phoneme Text (for Testing)
-	private String ref[] = {"[W,AH,N]", "[Z,IH,R,OW]", "[Z,IH,R,OW]", "[Z,IH,R,OW]", "[W,AH,N]"};
+	private String ref[];
 
 	public VoiceMetaData analyze(File wavFile, String refText, VoiceMetaData vData) throws IOException {
+
+
+		ref = getRefPhonemes(refText);
 
 		StringBuilder tempS = new StringBuilder();
 		for (String aRef : ref) tempS.append(aRef);
 		String phonemeRef = tempS.toString();
 
-		// Not sure we need NISTAlign since we have to do phoneme alignment ourselves.
-		// Will only need if we plan to do word alignment as well as phonemic alignment (which is why this is all commented out)
 
-//		NISTAlign nistAlign = new NISTAlign(true, true);
 		
 		vData.setOriginalText(refText);
 
@@ -44,11 +39,14 @@ public class VoiceAnalysis{
 		configuration.setDictionaryPath("resource:/edu/cmu/sphinx/models/en-us/cmudict-en-us.dict");
 		configuration.setLanguageModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us.lm.bin");
 
+
 		StreamSpeechRecognizer recognizer = new StreamSpeechRecognizer(configuration);
 		InputStream stream = new FileInputStream(wavFile);
 
 		recognizer.startRecognition(stream);
 		SpeechResult result = recognizer.getResult();
+
+
 		if (result != null) {
 			Result temp = result.getResult();
 //			System.out.format("Phoneme Hypothesis: %s\n", temp.getBestPronunciationResult());	// prints words and phonemes
@@ -65,32 +63,35 @@ public class VoiceAnalysis{
 			System.out.println("Recognizer did not hear anything.");
 		}
 
-//		}
-//		while ((result = recognizer.getResult()) != null) {
-//			System.out.format("Hypothesis: %s\n", result.getHypothesis());
-//		}
-
-		// uses word(s) for analysis
-//		nistAlign.align(refText, result.getHypothesis());
-
-//		nistAlign.align(refText, temp.getBestPronunciationResult()); // uses the string formatted at 'word[X,XX,X]' where the 'X' are phonemes
-//		float wordCount = nistAlign.getTotalWords();
-
-		// Word Alignment (Analysis)
-//		vData.setDeletionErrorRate(nistAlign.getTotalDeletions() / wordCount); // # of words left out (D) / # of words
-//		vData.setInsertionErrorRate(nistAlign.getTotalInsertions() / wordCount); // # of extra words added (I) / # of words
-//		vData.setReplacementErrorRate(nistAlign.getTotalSubstitutions() / wordCount); // # of words said wrong (S) / # of words
-//		vData.setOverallErrorRate(nistAlign.getTotalWordErrorRate()); // (S + D + I) / # of words
 
 		vData.setDeletionErrorRate(totalDeletions / totalPhonemeRef); // # of phonemes left out for a word (D) / # of words
 		vData.setInsertionErrorRate(totalInsertions / totalPhonemeRef); // # of extra phonemes in a word added (I) / # of words
 		vData.setReplacementErrorRate(totalReplacements / totalPhonemeRef); // # of phonemes in a word said wrong (S) / # of words
 		vData.setOverallErrorRate((totalDeletions + totalInsertions + totalReplacements) / totalPhonemeRef);
-
-//		Pronunciation refPronunciation = new Pronunciation();
+		
 
 		recognizer.stopRecognition();
 		return vData;
+	}
+
+	private String[] getRefPhonemes(String refText) {
+		String[] words;
+		words = refText.split(" ");
+
+
+		G2PConverter refTextConversion = new G2PConverter("en-us/model.fst.ser");
+
+
+		String refPhonemes[] = new String[words.length];
+		String wordPhonemes;
+
+		for(int i = 0; i< words.length; i++) {
+			wordPhonemes = refTextConversion.phoneticize(words[i], 1).toString();
+			String[] tempArray = wordPhonemes.split("	");
+			refPhonemes[i] = "[" + tempArray[1].replace(" ", ",");
+		}
+
+		return refPhonemes;
 	}
 
 

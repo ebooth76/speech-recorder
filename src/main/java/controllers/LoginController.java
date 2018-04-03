@@ -93,6 +93,21 @@ public class LoginController {
             }
             else {
                 session.setAttribute("Login", user.getUsername());
+//                ps = connection.prepareStatement("SELECT * FROM users WHERE username = ? LIMIT 1;");
+//                ps.setString(1, user.getUsername());
+                rs.next();
+                User userForSession = new User();
+                userForSession.setId(rs.getLong("user_id"));
+                userForSession.setUsername(rs.getString("username"));
+                userForSession.setPassword(rs.getString("password"));
+                userForSession.setUsertype(rs.getString("user_type"));
+                userForSession.setEmail(rs.getString("email"));
+                userForSession.setFirstname(rs.getString("firstname"));
+                userForSession.setLastname(rs.getString("lastname"));
+                userForSession.setGender(rs.getString("gender"));
+                userForSession.setValid(rs.getString("valid"));
+                userForSession.setAge(rs.getInt("age"));
+                session.setAttribute("User", userForSession);
                 connection.close();
                 return "redirect:/record";
             }

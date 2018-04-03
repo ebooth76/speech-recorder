@@ -37,7 +37,8 @@ public class LogoutController {
         if(session.getAttribute("Login") == null)
             return "redirect:/";
         else {
-            session.setAttribute("Login", "watch ur back");
+            session.setAttribute("Login", "none");
+            session.setAttribute("User", null);
             session.invalidate();
             return "redirect:/logout";
         }
