@@ -1,5 +1,4 @@
 package voice.analysis;
-
 import edu.cmu.sphinx.api.Configuration;
 import edu.cmu.sphinx.api.SpeechResult;
 import edu.cmu.sphinx.api.StreamSpeechRecognizer;
@@ -11,66 +10,55 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 
-public class VoiceAnalysis{
+public class VoiceAnalysis implements Serializable {
 
 	private float totalInsertions = 0;
 	private float totalDeletions = 0;
 	private float totalReplacements = 0;
 	private float totalPhonemeRef;
-	private String ref[];
+	private Configuration c;
+	
 
-	public VoiceMetaData analyze(File wavFile, String refText, VoiceMetaData vData) throws IOException {
+	/**
+	 *
+	 * @param wavFile {File}-- A file in .wav format of speech audio
+	 * @param refText {String} --
+	 * @param vData {VoiceMetaData} --
+	 * @return vData --
+	 */
+	public VoiceMetaData analyze(File wavFile, String refText, VoiceMetaData vData) {
 
+		String[] ref = getRefPhonemes(refText);
+		String phonemeRef = parseReferencePhonemes(ref);
 
-		ref = getRefPhonemes(refText);
-
-		StringBuilder tempS = new StringBuilder();
-		for (String aRef : ref) tempS.append(aRef);
-		String phonemeRef = tempS.toString();
-
-
-		
+		initializeConfig();
 		vData.setOriginalText(refText);
+		vData.setPhonemicTranslationDesired(phonemeRef);
 
-		Configuration configuration = new Configuration();
+		StreamSpeechRecognizer recognizer = startSpeechRecognition(wavFile, c);
+		SpeechResult recognizerResult = recognizer.getResult();
+		recognizer.stopRecognition();
 
-		configuration.setAcousticModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us"); //TODO: fix file handles
-		configuration.setDictionaryPath("resource:/edu/cmu/sphinx/models/en-us/cmudict-en-us.dict");
-		configuration.setLanguageModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us.lm.bin");
+		if(recognizerResult == null) {
+			System.out.println("No audio result. Please make sure you are speaking clearly into the microphone.");
+			System.exit(-1);
+		}
 
+		else {
+			System.out.println("\n");
+			Result speech = recognizerResult.getResult();
+			System.out.println( "Hypothesis Phonemes: " + getPhonemeHypothesis(speech.getBestPronunciationResult(), ref));	// prints just phonemes
 
-		StreamSpeechRecognizer recognizer = new StreamSpeechRecognizer(configuration);
-		InputStream stream = new FileInputStream(wavFile);
+			vData.setPhonemicTranslationActual(getPhonemeHypothesis(speech.getBestPronunciationResult(), ref)); // set phonemic translation for meta data
 
-		recognizer.startRecognition(stream);
-		SpeechResult result = recognizer.getResult();
-
-
-		if (result != null) {
-			Result temp = result.getResult();
-//			System.out.format("Phoneme Hypothesis: %s\n", temp.getBestPronunciationResult());	// prints words and phonemes
-			System.out.println( "\nHypothesis Phonemes: " + getPhonemeHypothesis(temp.getBestPronunciationResult(), ref));	// prints just phonemes
-			vData.setPhonemicTranslationDesired(phonemeRef);
-
-			System.out.println("DESIRED PHONEMIC ALIGNMENT: " + vData.getPhonemicTranslationDesired());
-
-			vData.setPhonemicTranslationActual(getPhonemeHypothesis(temp.getBestPronunciationResult(), ref)); // set phonemic translation for meta data
-			System.out.println("Word Hypothesis: " + result.getHypothesis()); // prints what was said
+			System.out.println("Desired Phonemic Alignment: " + vData.getPhonemicTranslationDesired());
+			System.out.println("Word Hypothesis: " + recognizerResult.getHypothesis()); // prints what was said
 			System.out.println("Desired: " + vData.getOriginalText() + "\n");	// prints what should have been said
 		}
-		else {
-			System.out.println("Recognizer did not hear anything.");
-		}
 
-
-		vData.setDeletionErrorRate(totalDeletions / totalPhonemeRef); // # of phonemes left out for a word (D) / # of words
-		vData.setInsertionErrorRate(totalInsertions / totalPhonemeRef); // # of extra phonemes in a word added (I) / # of words
-		vData.setReplacementErrorRate(totalReplacements / totalPhonemeRef); // # of phonemes in a word said wrong (S) / # of words
-		vData.setOverallErrorRate((totalDeletions + totalInsertions + totalReplacements) / totalPhonemeRef);
-		
-
-		recognizer.stopRecognition();
+		finalizeMetaData(vData);
 		return vData;
 	}
 
@@ -85,7 +73,7 @@ public class VoiceAnalysis{
 		String refPhonemes[] = new String[words.length];
 		String wordPhonemes;
 
-		for(int i = 0; i< words.length; i++) {
+		for(int i = 0; i < words.length; i++) {
 			wordPhonemes = refTextConversion.phoneticize(words[i], 1).toString();
 			String[] tempArray = wordPhonemes.split("	");
 			refPhonemes[i] = "[" + tempArray[1].replace(" ", ",");
@@ -186,4 +174,49 @@ public class VoiceAnalysis{
 		vData.setScore(score);
 		System.out.println("Score: " + vData.getScore());
 	}
-}
+
+	private Configuration initializeConfig() {
+
+		c = new Configuration();
+
+		c.setAcousticModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us"); //TODO: fix file handles
+		c.setDictionaryPath("resource:/edu/cmu/sphinx/models/en-us/cmudict-en-us.dict");
+		c.setLanguageModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us.lm.bin");
+
+		return c;
+	}
+
+	private StreamSpeechRecognizer startSpeechRecognition(File wavFile, Configuration c) {
+
+		StreamSpeechRecognizer recognizer;
+		try {
+			recognizer = new StreamSpeechRecognizer(c);
+			InputStream stream = new FileInputStream(wavFile);
+			recognizer.startRecognition(stream);
+			return recognizer;
+		} catch (IOException e) {
+			System.out.println("Could not find wavFile or configuration.");
+			e.printStackTrace();
+			return null;
+		}
+
+
+	}
+
+	private void finalizeMetaData(VoiceMetaData vData) {
+		vData.setDeletionErrorRate(totalDeletions / totalPhonemeRef); // # of phonemes left out for a word (D) / # of words
+		vData.setInsertionErrorRate(totalInsertions / totalPhonemeRef); // # of extra phonemes in a word added (I) / # of words
+		vData.setReplacementErrorRate(totalReplacements / totalPhonemeRef); // # of phonemes in a word said wrong (S) / # of words
+		vData.setOverallErrorRate((totalDeletions + totalInsertions + totalReplacements) / totalPhonemeRef);
+	}
+
+	private String parseReferencePhonemes(String[] ref){
+		StringBuilder returnString = new StringBuilder();
+
+		for (String aRef : ref) {
+			returnString.append(aRef);
+		}
+			return returnString.toString();
+
+	}
+	}
