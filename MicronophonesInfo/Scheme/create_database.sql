@@ -61,10 +61,7 @@ DROP TABLE IF EXISTS `Micronophones`.`voice_analysis_metadata` ;
 
 CREATE TABLE IF NOT EXISTS `Micronophones`.`voice_analysis_metadata` (
   `idvoice_analysis` INT NOT NULL AUTO_INCREMENT,
-  `phoneme_insertions` FLOAT NULL,
-  `phoneme_deletions` FLOAT NULL,
-  `phoneme_replacements` FLOAT NULL,
-  `total_phonemes` FLOAT NULL,
+  `voice_data_serialized` BLOB NOT NULL,
   PRIMARY KEY (`idvoice_analysis`))
 ENGINE = InnoDB;
 
