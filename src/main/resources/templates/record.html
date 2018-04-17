@@ -1,81 +1,77 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta name="viewport" content="text/html; charset=utf-8">
-	<link rel="stylesheet" th:href="@{/css/theme.css}">
-	<script src="/webjars/jquery/jquery.min.js"></script>
-	<script src="/webjars/sockjs-client/sockjs.min.js"></script>
-	<script src="/webjars/stomp-websocket/stomp.min.js"></script>
-	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-	<link rel="script" th:href="@{/js/mediaDevices-getUserMedia-polyfill.js}"/>
+    <meta name="viewport" content="text/html; charset=utf-8">
+    <link rel="stylesheet" th:href="@{/css/theme.css}">
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <link rel="script" th:href="@{/js/mediaDevices-getUserMedia-polyfill.js}"/>
 </head>
 <body>
 <!--Navigation bar-->
 <div th:insert="fragments/nav :: navbar"></div>
 
 <!--end of Navigation bar-->
-<div class="py-5 text-center opaque-overlay w-100 h-100" style="background-image: url(&quot;https://pingendo.github.io/templates/sections/assets/cover_event.jpg&quot;);">
-	<div class="container py-5">
-		<div class="row">
-			<div class="col-md-12 text-white">
-				<p class="lead mb-5">Please say the following into the microphone:</p>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12 text-white">
-				<ul th:each="record : ${records}">
-					<li id="record-text" th:text="${record}"/>
-				</ul>
-			</div>
-		</div>
-		<section class="main-controls">
-			<div id="buttons">
-				<button class="record">Record</button>
-				<button class="stop">Stop</button>
-				<button onclick="pronunciation()">Pronunciation (English)</button>
-				<script>
-				function pronunciation(){
-					if(typeof speechSynthesis === 'undefined') {
-    					alert("Current browser does not support text-to-speech functionality.");
-    				} else {
-						var utterance = new SpeechSynthesisUtterance();
-						var record = document.querySelector('.record');
-						var word = $("#record-text").text();
-						utterance.text=word;
-						utterance.lang = 'en-US';
-						speechSynthesis.speak(utterance);
-					}
-				}
-				</script>
-				<button onclick="slowPronunciation()">Pronunciation (Slower)</button>
-				<script>
-				function slowPronunciation(){
-					if(typeof speechSynthesis === 'undefined') {
-    					alert("Current browser does not support text-to-speech functionality.");
-    				} else {
-						var slowUt = new SpeechSynthesisUtterance();
-						var record = document.querySelector('.record');
-						var word2 = $("#record-text").text();
-						slowUt.text=word2;
-						slowUt.lang = 'en-US';
-						slowUt.rate = 0.3;
-						speechSynthesis.speak(slowUt);
-					}
-				}
-				</script>
-			</div>
-			<canvas class="visualizer" height="90px"></canvas>
-		</section>
-		<section class="sound-clips"></section>
-		<script th:src="@{/js/record-app.js}"></script>
-	</div>
-	<!--<div th:switch="$user.">
+<div class="py-5 text-center opaque-overlay w-100 h-100"
+     style="background-image: url(&quot;https://pingendo.github.io/templates/sections/assets/cover_event.jpg&quot;);">
+    <div class="container py-5">
+        <div class="row">
+            <div th:insert="fragments/model :: model"></div>
+            <div class="col-md-12 text-white">
+                <p class="lead mb-5">Please press the record button and say the following:</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-white">
+                <p class="lead mb-5">Please press the record button and say the following:</p>
+            </div>
+        </div>
+        <div class="row">
+                <p class="lead mb-5">Click to hear</p>
+                <ul th:each="record : ${records}">
+                    <button id="record-text" onclick="pronunciation()" th:text="${record}"/>
+                </ul>
+                <script>
+                    function pronunciation() {
+                        if (typeof speechSynthesis === 'undefined') {
+                            alert("Current browser does not support text-to-speech functionality.");
+                        } else {
+                            var utterance = new SpeechSynthesisUtterance();
+                            var record = document.querySelector('.record');
+                            var word = $("#record-text").text();
+                            utterance.text = word;
+                            utterance.lang = 'en-US';
+                            speechSynthesis.speak(utterance);
+                        }
+                    }
+                </script>
+                <a class="btn btn-secondary" >Next</a>
+        </div>
+        <section class="main-controls">
+            <div id="buttons">
+                <button class="record">Record</button>
+                <button class="stop">Stop</button>
+            </div>
+            <canvas class="visualizer" height="90px"></canvas>
+        </section>
+        <section class="sound-clips"></section>
+        <script th:src="@{/js/record-app.js}"></script>
+    </div>
+    <!--<div th:switch="$user.">
 
-	</div>-->
+    </div>-->
 </div>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
