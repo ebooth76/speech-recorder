@@ -18,6 +18,7 @@ package  com.example;
 
 import app.AudioManager;
 import app.User;
+import app.Patient;
 import app.Util;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -147,9 +148,10 @@ public class Main {
     }
 
     @PostMapping("/record/patient")
-    @ResponseStatus(value = HttpStatus.OK)
-    void recordPatientInfo(Map<String, Object> model, HttpSession session) {
-        System.out.println("Test");
+    String recordPatientInfo(@ModelAttribute Patient patient, HttpSession session) {
+        session.setAttribute("patient", patient);
+        // TODO gender is currently not being stored
+        return "redirect:/record";
     }
 
 

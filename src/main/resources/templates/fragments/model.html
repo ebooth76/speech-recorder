@@ -16,33 +16,33 @@
                 </div>
                 <div class="modal-body">
                     <div class="card-body">
-                        <form action="#" th:action="@{/record/patient}" method=POST>
+                        <form action="#" th:action="@{/record/patient}" th:object="${patient}" method=POST>
                             <div class="form-group"><label>Age</label>
                                 <input class="form-control" placeholder="Enter age" type="number" id="age" name="age"
-                                       required="true" th:object="${username}">
+                                       required="true" th:object="${age}">
                             </div>
                             <div class="form-group">
                                 <label for="gender">Gender</label>
                                 <div>
-                                    <select id="gender" class="custom-select">
+                                    <select id="gender" class="custom-select" th:object="${gender}">
                                         <option disabled="" selected="">Select Gender</option>
-                                        <option value="1">Male</option>
-                                        <option value="2">Female</option>
+                                        <option value="1" th:object="${gender}">Male</option>
+                                        <option value="2" th:object="${gender}">Female</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group"><label>Location</label>
                                 <input class="form-control" placeholder="Enter location" id="location"
-                                       name="location" required="true" th:object="${username}">
+                                       name="location" required="true" th:object="${location}">
                             </div>
                             <div class="form-group"><label>Speech Information (if applicable)</label>
                                 <input class="form-control" placeholder="" id="speech_information"
-                                       name="speech_information" required="false" th:object="${username}">
+                                       name="speechinfo" required="false" th:object="${speechinfo}">
                             </div>
                             <div class="form-group">
                                 <label for="script">What script do you want to use?</label>
                                 <div>
-                                    <select id="script" class="custom-select">
+                                    <select id="script" class="custom-select" th:object="${scriptname}">
                                     </select>
                                 </div>
                             </div>
