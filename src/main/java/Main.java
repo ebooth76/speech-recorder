@@ -29,6 +29,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.json.*;
+import org.springframework.http.HttpStatus;
 
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
@@ -143,6 +144,12 @@ public class Main {
             } catch (Exception e) {
             }
         }
+    }
+
+    @PostMapping("/record/patient")
+    @ResponseStatus(value = HttpStatus.OK)
+    void recordPatientInfo(Map<String, Object> model, HttpSession session) {
+        System.out.println("Test");
     }
 
 
