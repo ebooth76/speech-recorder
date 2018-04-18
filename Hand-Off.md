@@ -13,4 +13,11 @@
 **build.sh is located in the repository and should pull and configure most everything for the server but I've had limited opportunity
   to test it.  This should be updated with any additional server configuration settings determined to be necessary to make it
   straight forward and easy to move to a new server.  The script should be placed in the home directory and executed with sudo permissions.
+**PostgreSQL installed on ec2 with:
+	sudo yum install postgresql postgresql-server postgresql-devel postgresql-contrib postgresql-docs
+**Create ec2 PostgreSQL database instance and connect with:
+	sudo service postgresql initdb
+	sudo su - postgresq
+	psql -U postgres
+	
 
