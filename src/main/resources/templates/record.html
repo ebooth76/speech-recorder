@@ -38,8 +38,8 @@
                         } else {
                             var utterance = new SpeechSynthesisUtterance();
                             var record = document.querySelector('.record');
-                            var word = $("#record-text").text();
-                            utterance.text = word;
+                            var phrase = $("#record-text").text();
+                            utterance.text = phrase;
                             utterance.lang = 'en-US';
                             speechSynthesis.speak(utterance);
                         }
