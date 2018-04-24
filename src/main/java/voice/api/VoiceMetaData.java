@@ -1,9 +1,10 @@
 package voice.api;
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class VoiceMetaData {
+public class VoiceMetaData implements Serializable {
 	
 	private float overallErrorRate;
 	private float insertionErrorRate;
