@@ -125,7 +125,16 @@ public class Main {
                 return "error";
             connection = DatabaseObject.getConnection();
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM phrases ORDER BY RANDOM() LIMIT 1");
+            // Check if a patient has been specified, if yes, then query the phrase name specified for a client
+            ResultSet rs;
+            PreparedStatement ps;
+            Patient patient = (Patient) session.getAttribute("patient");
+            if (patient != null) {
+                ps = connection.prepareStatement("SELECT * FROM phrases WHERE phrase_name = ? ORDER BY RANDOM() LIMIT 1;");
+                ps.setString(1, patient.getScriptname());
+                rs = ps.executeQuery();
+            } else
+                rs = stmt.executeQuery("SELECT * FROM phrases ORDER BY RANDOM() LIMIT 1");
             ArrayList<String> output = new ArrayList<String>();
             while (rs.next()) {
                 output.add(rs.getString("phrase"));
@@ -150,7 +159,6 @@ public class Main {
     @PostMapping("/record/patient")
     String recordPatientInfo(@ModelAttribute Patient patient, HttpSession session) {
         session.setAttribute("patient", patient);
-        // TODO gender is currently not being stored
         return "redirect:/record";
     }
 

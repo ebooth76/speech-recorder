@@ -21,8 +21,8 @@
                         <h1 class="mb-4">Create Script Form</h1>
                         <form action="#" th:action="@{/create-script}" th:object="${phrase}" method=POST>
                             <div class="form-group">
-                                <div><label>Script Name</label>
-                                <input class="form-control" placeholder="Script Name" id="phrasename" name="phrasename" required="true" th:object="${phrasename}"> </div>
+                                <div><label>Script Group</label>
+                                <input class="form-control" placeholder="Script Group" id="phrasename" name="phrasename" required="true" th:object="${phrasename}"> </div>
                                 <div><label>Script (Separated by newlines)</label>
                                 <input class="form-control" placeholder="Script Content" id="phrase" name="phrase" required="true" th:object="${phrase}"> </div>
                             </div>

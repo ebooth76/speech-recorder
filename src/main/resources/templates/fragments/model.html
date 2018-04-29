@@ -21,15 +21,9 @@
                                 <input class="form-control" placeholder="Enter age" type="number" id="age" name="age"
                                        required="true" th:object="${age}">
                             </div>
-                            <div class="form-group">
-                                <label for="gender">Gender</label>
-                                <div>
-                                    <select id="gender" class="custom-select" th:object="${gender}">
-                                        <option disabled="" selected="">Select Gender</option>
-                                        <option value="1" th:object="${gender}">Male</option>
-                                        <option value="2" th:object="${gender}">Female</option>
-                                    </select>
-                                </div>
+                            <div class="form-group"><label>Gender</label>
+                                <input class="form-control" placeholder="Enter gender" id="gender"
+                                       name="gender" required="true" th:object="${gender}">
                             </div>
                             <div class="form-group"><label>Location</label>
                                 <input class="form-control" placeholder="Enter location" id="location"
@@ -39,12 +33,9 @@
                                 <input class="form-control" placeholder="" id="speech_information"
                                        name="speechinfo" required="false" th:object="${speechinfo}">
                             </div>
-                            <div class="form-group">
-                                <label for="script">What script do you want to use?</label>
-                                <div>
-                                    <select id="script" class="custom-select" th:object="${scriptname}">
-                                    </select>
-                                </div>
+                            <div class="form-group"><label>Script group (none if you want everything)</label>
+                                <input class="form-control" placeholder="" id="scriptname"
+                                       name="scriptname" required="false" th:object="${scriptname}">
                             </div>
                             <button type="submit" class="btn btn-secondary">Login</button>
                         </form>
