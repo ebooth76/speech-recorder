@@ -204,6 +204,8 @@ public class Main {
 
         JSONObject obj = new JSONObject(packet);
         String text = obj.getString("text");
+        String gender = obj.getString("gender");
+        String age = obj.getString("age");
         String audio = obj.getString("audio");
 
 //    System.out.println(text + audio);
@@ -215,7 +217,7 @@ public class Main {
 //    fos.write(decodedByte);
 //    fos.close();
         AudioManager am = new AudioManager();
-        return am.analyze(audio, text, "default");
+        return am.analyze(audio, text, gender, age );
     }
 
     private static Connection getConnection() throws SQLException {
