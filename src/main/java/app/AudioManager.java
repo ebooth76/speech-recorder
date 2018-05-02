@@ -21,10 +21,10 @@ public class AudioManager{
 	
 	//globals
 	private byte[] buffer;
-	private int port;
+	private static int port, age;
 	private static File audioFile;
 	private static AudioInputStream audioIn;
-	private static String prompt, gender, age;
+	private static String prompt, gender;
 	private static final String key = "micronophones123";
 	
 	/**
@@ -34,17 +34,18 @@ public class AudioManager{
 	 * @param user: user to record the record for.
 	 * @return string containing success or failure.  once fully implemented, will return metadata.
 	 */
-	public String analyze(String audio, String phrase, String gender, String age) {
+	public String analyze(String audio, String phrase, String gender, int age) {
 		AudioManager.prompt = phrase;
 		AudioManager.gender = gender;
 		AudioManager.age = age;
 		String name = gender + age + System.currentTimeMillis() + ".txt";
+		File file = new File("/home/ec2-user/audio/" + name);
 		OutputStream out = null;
 		try {
 			out = new FileOutputStream(file);
-			out.write(AudioManager.prompt);
+			out.write(AudioManager.prompt.getBytes());
 			out.close();
-		} catch
+		} catch(Exception e){}
 		if(saveAudio(audio) == 0){
 			VoiceMetaData vmd = sendToSphinx((audioFile));
 			addToDB(vmd);

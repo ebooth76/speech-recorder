@@ -199,7 +199,7 @@ public class Main {
 //  }
 
     @MessageMapping("/audio")
-    public String audio(String packet) throws Exception {
+    public String audio(String packet, HttpSession session) throws Exception {
         System.out.println("incoming message ...");
 	
 	Patient p = (Patient) session.getAttribute("patient");
@@ -207,7 +207,7 @@ public class Main {
         JSONObject obj = new JSONObject(packet);
         String text = obj.getString("text");
         String gender = p.getGender();
-        String age = p.getAge();
+        int age = p.getAge();
         String audio = obj.getString("audio");
 
 //    System.out.println(text + audio);
