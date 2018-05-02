@@ -38,6 +38,13 @@ public class AudioManager{
 		AudioManager.prompt = phrase;
 		AudioManager.gender = gender;
 		AudioManager.age = age;
+		String name = gender + age + System.currentTimeMillis() + ".txt";
+		OutputStream out = null;
+		try {
+			out = new FileOutputStream(file);
+			out.write(AudioManager.prompt);
+			out.close();
+		} catch
 		if(saveAudio(audio) == 0){
 			VoiceMetaData vmd = sendToSphinx((audioFile));
 			addToDB(vmd);

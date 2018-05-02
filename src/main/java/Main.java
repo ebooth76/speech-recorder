@@ -201,11 +201,13 @@ public class Main {
     @MessageMapping("/audio")
     public String audio(String packet) throws Exception {
         System.out.println("incoming message ...");
-
+	
+	Patient p = (Patient) session.getAttribute("patient");
+	 
         JSONObject obj = new JSONObject(packet);
         String text = obj.getString("text");
-        String gender = obj.getString("gender");
-        String age = obj.getString("age");
+        String gender = p.getGender();
+        String age = p.getAge();
         String audio = obj.getString("audio");
 
 //    System.out.println(text + audio);
